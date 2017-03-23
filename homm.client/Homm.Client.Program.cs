@@ -28,9 +28,9 @@ namespace Homm.Client
             var sensorData = client.Configurate(
                 ip, port, CvarcTag,
 
-                timeLimit: 90,              // Продолжительность матча в секундах (исключая время, которое "думает" ваша программа). 
+                timeLimit: 1000,              // Продолжительность матча в секундах (исключая время, которое "думает" ваша программа). 
 
-                operationalTimeLimit: 20,   // Суммарное время в секундах, которое разрешается "думать" вашей программе. 
+                operationalTimeLimit: 1000,   // Суммарное время в секундах, которое разрешается "думать" вашей программе. 
                                             // Вы можете увеличить это время для отладки, чтобы ваш клиент не был отключен, 
                                             // пока вы разглядываете программу в режиме дебаггинга.
 
@@ -41,18 +41,22 @@ namespace Homm.Client
 
                 debugMap: false,            // Вы можете использовать отладочную простую карту, чтобы лучше понять, как устроен игоровой мир.
 
-                level: HommLevel.Level2,    // Здесь можно выбрать уровень. На уровне два на карте присутствует оппонент.
+                level: HommLevel.Level1,    // Здесь можно выбрать уровень. На уровне два на карте присутствует оппонент.
 
                 isOnLeftSide: true          // Вы можете указать, с какой стороны будет находиться замок героя при игре на втором уровне.
                                             // Помните, что на сервере выбор стороны осуществляется случайным образом, поэтому ваш код
                                             // должен работать одинаково хорошо в обоих случаях.
             );
 
-            var path = new[] { Direction.RightDown, Direction.RightUp, Direction.RightDown, Direction.RightUp, Direction.LeftDown, Direction.Down, Direction.RightDown, Direction.RightDown, Direction.RightUp };
+            //var path = new[] { Direction.RightDown, Direction.RightUp, Direction.RightDown, Direction.RightUp, Direction.LeftDown, Direction.Down, Direction.RightDown, Direction.RightDown, Direction.RightUp };
             sensorData = client.HireUnits(1);
+
+            AStarSolver pathSolver = new AStarSolver(sensorData.Map);
+            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(0, 9));
+
             foreach (var e in path)
                 sensorData = client.Move(e);
-            sensorData = client.Move(Direction.RightDown);
+            //sensorData = client.Move(Direction.RightDown);
             client.Exit();
         }
 
