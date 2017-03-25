@@ -12,7 +12,6 @@ namespace Homm.Client
         // Вставьте сюда свой личный CvarcTag для того, чтобы учавствовать в онлайн соревнованиях.
         public static readonly Guid CvarcTag = Guid.Parse("00000000-0000-0000-0000-000000000000");
 
-
         public static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -51,12 +50,15 @@ namespace Homm.Client
             //var path = new[] { Direction.RightDown, Direction.RightUp, Direction.RightDown, Direction.RightUp, Direction.LeftDown, Direction.Down, Direction.RightDown, Direction.RightDown, Direction.RightUp };
             sensorData = client.HireUnits(1);
 
+            // Получаем путб из начальной точки в точку c координатмаи (0, 9)
             AStarSolver pathSolver = new AStarSolver(sensorData.Map);
-            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(0, 9));
+            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(2, 3));
 
+            // Перемещаемся по полученному пути
             foreach (var e in path)
                 sensorData = client.Move(e);
             //sensorData = client.Move(Direction.RightDown);
+            //Console.ReadKey();
             client.Exit();
         }
 
@@ -100,17 +102,12 @@ namespace Homm.Client
                 .FirstOrDefault()?.ToString() ?? "Nothing";
         }
 
-
         static void OnInfo(string infoMessage)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(infoMessage);
             Console.ResetColor();
         }
-
-
-
-
        
     }
 }
