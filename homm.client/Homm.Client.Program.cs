@@ -50,6 +50,9 @@ namespace Homm.Client
             //var path = new[] { Direction.RightDown, Direction.RightUp, Direction.RightDown, Direction.RightUp, Direction.LeftDown, Direction.Down, Direction.RightDown, Direction.RightDown, Direction.RightUp };
             sensorData = client.HireUnits(1);
 
+            Vision v = new Vision(sensorData.Map);
+            v.InitBottom();
+
             // Получаем путб из начальной точки в точку c координатмаи (0, 9)
             AStarSolver pathSolver = new AStarSolver(sensorData.Map);
             var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(2, 3));

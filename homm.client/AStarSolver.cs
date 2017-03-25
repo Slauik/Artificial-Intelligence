@@ -11,6 +11,21 @@ using System.Diagnostics;
 
 namespace Homm.Client
 {
+    // Структура Place 
+    public struct Place
+    {
+        // Поля-координаты
+        public int X;
+        public int Y;
+
+        // Конструктор
+        public Place(int ax, int ay)
+        {
+            X = ax;
+            Y = ay;
+        }
+    }
+
     class AStarSolver
     {
         // Список звеньев передвижения
@@ -28,21 +43,6 @@ namespace Homm.Client
             directions.Add(new Chain( 1,  1, ((int)Direction.RightDown).ToString())); // движение вниз-вправо
             directions.Add(new Chain( 0, -1, ((int)Direction.Up).ToString())); // движение вверх
             directions.Add(new Chain( 0,  1, ((int)Direction.Down).ToString())); // движение вниз
-        }
-
-        // Структура Place 
-        public struct Place
-        {
-            // Поля-координаты
-            public int X;
-            public int Y;
-
-            // Конструктор
-            public Place(int ax, int ay)
-            {
-                X = ax;
-                Y = ay;
-            }
         }
 
         // Структура звена

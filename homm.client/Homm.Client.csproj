@@ -55,6 +55,7 @@
     <Compile Include="AStarSolver.cs" />
     <Compile Include="Homm.Client.Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vision.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
