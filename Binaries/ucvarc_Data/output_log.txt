@@ -31,14 +31,14 @@ Platform assembly: D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\Unity
 Loading D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\UnityCommons.dll into Unity Child Domain
 Platform assembly: D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\Ionic.Zip.dll (this message is harmless)
 Loading D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\Ionic.Zip.dll into Unity Child Domain
-- Completed reload, in  4.852 seconds
+- Completed reload, in  0.336 seconds
 Platform assembly: D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\System.dll (this message is harmless)
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 1.114035 ms
+UnloadTime: 2.338406 ms
 Platform assembly: D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\System.Runtime.Serialization.dll (this message is harmless)
 Platform assembly: D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\System.Xml.Linq.dll (this message is harmless)
 Platform assembly: D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\System.Xml.dll (this message is harmless)
@@ -47,7 +47,7 @@ Loaded settings, version=3
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-**************  UNITY STARTED 3/25/2017 3:11:58 PM
+**************  UNITY STARTED 3/25/2017 8:32:28 PM
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
@@ -56,8 +56,8 @@ DlcLoader.LoadAssemblies: Loading assembly pudge.dll
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Non platform assembly: data-121DE810 (this message is harmless)
-Fallback handler could not load library D:/Programmering/SKB/Cvark/Binaries/ucvarc_Data/Mono/data-121DE810.dll
+Non platform assembly: data-10BAD010 (this message is harmless)
+Fallback handler could not load library D:/Programmering/SKB/Cvark/Binaries/ucvarc_Data/Mono/data-10BAD010.dll
 Dispatcher.FillLoader: pudge final is loaded
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
@@ -74,8 +74,8 @@ DlcLoader.LoadAssemblies: Loading assembly homm.dll
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Non platform assembly: data-12235CB8 (this message is harmless)
-Fallback handler could not load library D:/Programmering/SKB/Cvark/Binaries/ucvarc_Data/Mono/data-12235CB8.dll
+Non platform assembly: data-10C1C460 (this message is harmless)
+Fallback handler could not load library D:/Programmering/SKB/Cvark/Binaries/ucvarc_Data/Mono/data-10C1C460.dll
 Dispatcher.FillLoader: homm Level1 is loaded
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
@@ -109,10 +109,10 @@ Dispatcher.IntroductionTick: Starting remote game
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 0.449462 ms
+UnloadTime: 0.697501 ms
 
 Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 280.
-Total: 0.546540 ms (FindLiveObjects: 0.013257 ms CreateObjectMapping: 0.013257 ms MarkObjects: 0.516176 ms  DeleteObjects: 0.003421 ms)
+Total: 2.813528 ms (FindLiveObjects: 0.065003 ms CreateObjectMapping: 0.082964 ms MarkObjects: 2.646743 ms  DeleteObjects: 0.017106 ms)
 
 PlayServer.HasGame: Requested game homm.Level1
  
@@ -136,20 +136,20 @@ game over. disposing
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
 Platform assembly: D:\Programmering\SKB\Cvark\Binaries\ucvarc_Data\Managed\I18N.West.dll (this message is harmless)
-UnloadTime: 120.304695 ms
+UnloadTime: 158.517242 ms
 
 Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
-Total: 3.780877 ms (FindLiveObjects: 0.649176 ms CreateObjectMapping: 0.315607 ms MarkObjects: 2.221655 ms  DeleteObjects: 0.592726 ms)
+Total: 3.660708 ms (FindLiveObjects: 0.219813 ms CreateObjectMapping: 0.347681 ms MarkObjects: 2.435910 ms  DeleteObjects: 0.656447 ms)
 
 Dispatcher.IntroductionTick: Starting remote game
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 0.413540 ms
+UnloadTime: 0.740267 ms
 
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
-Total: 1.667417 ms (FindLiveObjects: 0.124019 ms CreateObjectMapping: 0.118459 ms MarkObjects: 1.414247 ms  DeleteObjects: 0.009836 ms)
+Total: 2.161785 ms (FindLiveObjects: 0.117604 ms CreateObjectMapping: 0.115893 ms MarkObjects: 1.914174 ms  DeleteObjects: 0.013257 ms)
 
 PlayServer.HasGame: Requested game homm.Level1
  
@@ -172,20 +172,20 @@ game over. disposing
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 36.831589 ms
+UnloadTime: 45.963703 ms
 
 Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
-Total: 2.440614 ms (FindLiveObjects: 0.144546 ms CreateObjectMapping: 0.128723 ms MarkObjects: 1.678109 ms  DeleteObjects: 0.488807 ms)
+Total: 3.094496 ms (FindLiveObjects: 0.142408 ms CreateObjectMapping: 0.128723 ms MarkObjects: 2.296496 ms  DeleteObjects: 0.526440 ms)
 
 Dispatcher.IntroductionTick: Starting remote game
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 0.506340 ms
+UnloadTime: 0.903630 ms
 
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
-Total: 2.315739 ms (FindLiveObjects: 0.130434 ms CreateObjectMapping: 0.131289 ms MarkObjects: 2.039475 ms  DeleteObjects: 0.013684 ms)
+Total: 1.792720 ms (FindLiveObjects: 0.118032 ms CreateObjectMapping: 0.121025 ms MarkObjects: 1.541688 ms  DeleteObjects: 0.011118 ms)
 
 PlayServer.HasGame: Requested game homm.Level1
  
@@ -208,20 +208,20 @@ game over. disposing
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 47.426685 ms
+UnloadTime: 80.018555 ms
 
 Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
-Total: 2.311890 ms (FindLiveObjects: 0.156520 ms CreateObjectMapping: 0.123163 ms MarkObjects: 1.560077 ms  DeleteObjects: 0.470845 ms)
+Total: 4.340249 ms (FindLiveObjects: 0.159942 ms CreateObjectMapping: 0.151389 ms MarkObjects: 3.036763 ms  DeleteObjects: 0.991299 ms)
 
 Dispatcher.IntroductionTick: Starting remote game
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 0.987022 ms
+UnloadTime: 0.879254 ms
 
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
-Total: 1.729855 ms (FindLiveObjects: 0.173626 ms CreateObjectMapping: 0.118887 ms MarkObjects: 1.426221 ms  DeleteObjects: 0.009836 ms)
+Total: 2.444036 ms (FindLiveObjects: 0.154382 ms CreateObjectMapping: 0.141980 ms MarkObjects: 2.134843 ms  DeleteObjects: 0.011974 ms)
 
 PlayServer.HasGame: Requested game homm.Level1
  
@@ -244,20 +244,20 @@ game over. disposing
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 31.751074 ms
+UnloadTime: 37.802376 ms
 
 Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
-Total: 2.447028 ms (FindLiveObjects: 0.158659 ms CreateObjectMapping: 0.137704 ms MarkObjects: 1.674688 ms  DeleteObjects: 0.473839 ms)
+Total: 2.228926 ms (FindLiveObjects: 0.095794 ms CreateObjectMapping: 0.162935 ms MarkObjects: 1.529714 ms  DeleteObjects: 0.440054 ms)
 
 Dispatcher.IntroductionTick: Starting remote game
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 1.247890 ms
+UnloadTime: 1.226936 ms
 
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
-Total: 2.284948 ms (FindLiveObjects: 0.137704 ms CreateObjectMapping: 0.207411 ms MarkObjects: 1.927858 ms  DeleteObjects: 0.010263 ms)
+Total: 5.331548 ms (FindLiveObjects: 0.281823 ms CreateObjectMapping: 0.543974 ms MarkObjects: 4.468117 ms  DeleteObjects: 0.036350 ms)
 
 PlayServer.HasGame: Requested game homm.Level1
  
@@ -280,20 +280,20 @@ game over. disposing
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 163.178162 ms
+UnloadTime: 136.766388 ms
 
 Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
-Total: 9.708144 ms (FindLiveObjects: 0.507196 ms CreateObjectMapping: 0.757800 ms MarkObjects: 6.626906 ms  DeleteObjects: 1.814102 ms)
+Total: 6.715433 ms (FindLiveObjects: 0.290803 ms CreateObjectMapping: 0.563646 ms MarkObjects: 4.553647 ms  DeleteObjects: 1.305624 ms)
 
 Dispatcher.IntroductionTick: Starting remote game
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 1.259437 ms
+UnloadTime: 1.423228 ms
 
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
-Total: 6.054279 ms (FindLiveObjects: 0.394723 ms CreateObjectMapping: 0.478543 ms MarkObjects: 5.009096 ms  DeleteObjects: 0.169778 ms)
+Total: 3.820650 ms (FindLiveObjects: 0.209549 ms CreateObjectMapping: 0.257447 ms MarkObjects: 3.327567 ms  DeleteObjects: 0.024803 ms)
 
 PlayServer.HasGame: Requested game homm.Level1
  
@@ -316,25 +316,414 @@ game over. disposing
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 56.030632 ms
+UnloadTime: 59.676395 ms
 
 Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
-Total: 3.224073 ms (FindLiveObjects: 0.145401 ms CreateObjectMapping: 0.141125 ms MarkObjects: 1.788871 ms  DeleteObjects: 1.148247 ms)
+Total: 5.055712 ms (FindLiveObjects: 0.349392 ms CreateObjectMapping: 0.378472 ms MarkObjects: 3.654293 ms  DeleteObjects: 0.672697 ms)
 
 Dispatcher.IntroductionTick: Starting remote game
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 0.458871 ms
+UnloadTime: 0.503775 ms
 
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
-Total: 2.035199 ms (FindLiveObjects: 0.111617 ms CreateObjectMapping: 0.120598 ms MarkObjects: 1.791437 ms  DeleteObjects: 0.011118 ms)
+Total: 2.612103 ms (FindLiveObjects: 0.159514 ms CreateObjectMapping: 0.171916 ms MarkObjects: 2.266987 ms  DeleteObjects: 0.012829 ms)
 
-Setting up 2 worker threads for Enlighten.
-  Thread -> id: 2718 -> priority: 1 
-  Thread -> id: 2e40 -> priority: 1 
-Dispatcher.OnDispose: GLOBAL EXIT
+PlayServer.HasGame: Requested game homm.Level1
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 112.412407 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 8.873368 ms (FindLiveObjects: 0.440054 ms CreateObjectMapping: 0.794151 ms MarkObjects: 6.002535 ms  DeleteObjects: 1.634489 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 1.109759 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 4.462985 ms (FindLiveObjects: 0.257019 ms CreateObjectMapping: 0.387881 ms MarkObjects: 3.787294 ms  DeleteObjects: 0.029935 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 48.818714 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 2.120730 ms (FindLiveObjects: 0.182607 ms CreateObjectMapping: 0.129578 ms MarkObjects: 1.375759 ms  DeleteObjects: 0.432784 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.482820 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 3.634194 ms (FindLiveObjects: 0.218102 ms CreateObjectMapping: 0.244189 ms MarkObjects: 3.158216 ms  DeleteObjects: 0.012829 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 51.717350 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 3.763345 ms (FindLiveObjects: 0.211688 ms CreateObjectMapping: 0.230077 ms MarkObjects: 2.732274 ms  DeleteObjects: 0.588878 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.419099 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 2.256296 ms (FindLiveObjects: 0.227083 ms CreateObjectMapping: 0.226656 ms MarkObjects: 1.791010 ms  DeleteObjects: 0.010691 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 67.291611 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 3.386583 ms (FindLiveObjects: 0.227083 ms CreateObjectMapping: 0.217675 ms MarkObjects: 2.364492 ms  DeleteObjects: 0.576903 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.609405 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 3.498628 ms (FindLiveObjects: 0.277974 ms CreateObjectMapping: 0.283961 ms MarkObjects: 2.920869 ms  DeleteObjects: 0.014112 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 61.388718 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 3.470403 ms (FindLiveObjects: 0.200141 ms CreateObjectMapping: 0.149678 ms MarkObjects: 2.577891 ms  DeleteObjects: 0.541836 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.744116 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 2.414528 ms (FindLiveObjects: 0.203990 ms CreateObjectMapping: 0.121025 ms MarkObjects: 2.078820 ms  DeleteObjects: 0.009836 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 65.738808 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 4.304754 ms (FindLiveObjects: 0.225373 ms CreateObjectMapping: 0.228366 ms MarkObjects: 3.237332 ms  DeleteObjects: 0.612398 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.771913 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 3.408821 ms (FindLiveObjects: 0.245472 ms CreateObjectMapping: 0.358373 ms MarkObjects: 2.789152 ms  DeleteObjects: 0.014540 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 45.033131 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 3.091502 ms (FindLiveObjects: 0.145829 ms CreateObjectMapping: 0.181324 ms MarkObjects: 2.177608 ms  DeleteObjects: 0.586312 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.644472 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 2.329852 ms (FindLiveObjects: 0.156093 ms CreateObjectMapping: 0.195865 ms MarkObjects: 1.964209 ms  DeleteObjects: 0.012401 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 51.960251 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 4.450155 ms (FindLiveObjects: 0.186456 ms CreateObjectMapping: 0.173199 ms MarkObjects: 3.315592 ms  DeleteObjects: 0.774051 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.695363 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 3.687223 ms (FindLiveObjects: 0.192443 ms CreateObjectMapping: 0.237347 ms MarkObjects: 3.240325 ms  DeleteObjects: 0.016250 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 76.427986 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 5.711304 ms (FindLiveObjects: 0.268566 ms CreateObjectMapping: 0.322877 ms MarkObjects: 4.069972 ms  DeleteObjects: 1.048177 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.575193 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 3.674393 ms (FindLiveObjects: 0.177048 ms CreateObjectMapping: 0.307482 ms MarkObjects: 3.169763 ms  DeleteObjects: 0.019244 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 48.208881 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 3.681663 ms (FindLiveObjects: 0.256591 ms CreateObjectMapping: 0.345543 ms MarkObjects: 2.485518 ms  DeleteObjects: 0.592299 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.714607 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 3.638898 ms (FindLiveObjects: 0.255736 ms CreateObjectMapping: 0.399855 ms MarkObjects: 2.970049 ms  DeleteObjects: 0.011118 ms)
+
+PlayServer.HasGame: Requested game homm.Level1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Game found in loader
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted client Left
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+PlayServer.HasGame: Accepted 1 connections
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+game over. disposing
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 78.150146 ms
+
+Unloading 226 unused Assets to reduce memory usage. Loaded Objects now: 3142.
+Total: 3.597416 ms (FindLiveObjects: 0.200141 ms CreateObjectMapping: 0.191588 ms MarkObjects: 2.701910 ms  DeleteObjects: 0.502919 ms)
+
+Dispatcher.IntroductionTick: Starting remote game
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
+UnloadTime: 0.565784 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3136.
+Total: 2.917448 ms (FindLiveObjects: 0.206128 ms CreateObjectMapping: 0.156948 ms MarkObjects: 2.515026 ms  DeleteObjects: 0.038061 ms)
 

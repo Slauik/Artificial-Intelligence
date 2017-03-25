@@ -7,19 +7,75 @@ using System.Collections.Generic;
 
 namespace Homm.Client
 {
+    // Структура Place - координаты
+    public struct Place
+    {
+        // Поля-координаты
+        public int X;
+        public int Y;
+
+        // Конструктор
+        public Place(int ax, int ay)
+        {
+            X = ax;
+            Y = ay;
+        }
+    }
+    //Структура Bottom - тип элементов карты недвижимых эелементов
+    struct Bottom
+    {
+        public int X;
+        public int Y;
+        public Place coord;
+        public double travelCost;
+
+        public Bottom(int X, int Y, double travelCost)
+        {
+            this.X = X;
+            this.Y = Y;
+            this.travelCost = travelCost;
+            coord = new Place(X, Y);
+        }
+
+        public Bottom(Place coord, double travelCost) : this(coord.X, coord.Y, travelCost) { }
+    }
+
     class Program
     {
         // Вставьте сюда свой личный CvarcTag для того, чтобы учавствовать в онлайн соревнованиях.
         public static readonly Guid CvarcTag = Guid.Parse("00000000-0000-0000-0000-000000000000");
 
+        private static HommClient client;
+        private static HommSensorData sensorData;
+
         public static void Main(string[] args)
+        {
+            Connect(args); //устанавливаем подключение к серверу
+
+            sensorData = client.HireUnits(1);
+
+            Vision v = new Vision(sensorData.Map);
+            v.InitBottom();
+
+            // Получаем путь из начальной точки в точку c координатмаи (0, 9)
+            AStarSolver pathSolver = new AStarSolver(v.bottom_map);
+            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(2, 3));
+
+            // Перемещаемся по полученному пути
+            foreach (var e in path)
+                sensorData = client.Move(e);
+            client.Exit();
+        }
+
+        //Подключение к серверу
+        private static void Connect(string[] args)
         {
             if (args.Length == 0)
                 args = new[] { "127.0.0.1", "18700" };
             var ip = args[0];
             var port = int.Parse(args[1]);
 
-            var client = new HommClient();
+            client = new HommClient();
 
             client.OnSensorDataReceived += Print;
             client.OnInfo += OnInfo;
@@ -30,8 +86,8 @@ namespace Homm.Client
                 timeLimit: 1000,              // Продолжительность матча в секундах (исключая время, которое "думает" ваша программа). 
 
                 operationalTimeLimit: 1000,   // Суммарное время в секундах, которое разрешается "думать" вашей программе. 
-                                            // Вы можете увеличить это время для отладки, чтобы ваш клиент не был отключен, 
-                                            // пока вы разглядываете программу в режиме дебаггинга.
+                                              // Вы можете увеличить это время для отладки, чтобы ваш клиент не был отключен, 
+                                              // пока вы разглядываете программу в режиме дебаггинга.
 
                 seed: 0,                    // Seed карты. Используйте этот параметр, чтобы получать одну и ту же карту и отлаживаться на ней.
                                             // Иногда меняйте этот параметр, потому что ваш код должен хорошо работать на любой карте.
@@ -46,26 +102,8 @@ namespace Homm.Client
                                             // Помните, что на сервере выбор стороны осуществляется случайным образом, поэтому ваш код
                                             // должен работать одинаково хорошо в обоих случаях.
             );
-
-            //var path = new[] { Direction.RightDown, Direction.RightUp, Direction.RightDown, Direction.RightUp, Direction.LeftDown, Direction.Down, Direction.RightDown, Direction.RightDown, Direction.RightUp };
-            sensorData = client.HireUnits(1);
-
-            Vision v = new Vision(sensorData.Map);
-            v.InitBottom();
-
-            // Получаем путб из начальной точки в точку c координатмаи (0, 9)
-            AStarSolver pathSolver = new AStarSolver(sensorData.Map);
-            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(2, 3));
-
-            // Перемещаемся по полученному пути
-            foreach (var e in path)
-                sensorData = client.Move(e);
-            //sensorData = client.Move(Direction.RightDown);
-            //Console.ReadKey();
-            client.Exit();
         }
-
-
+        //Вывод информации о соседних с персонажем ячейках
         static void Print(HommSensorData data)
         {
             Console.WriteLine("---------------------------------");
@@ -95,7 +133,7 @@ namespace Homm.Client
             Console.WriteLine(GetObjectAt(data.Map, location.NeighborAt(Direction.LeftUp)));
             //Console.ReadLine();
         }
-
+        //Получить информацию о ячейке
         static string GetObjectAt(MapData map, Location location)
         {
             if (location.X < 0 || location.X >= map.Width || location.Y < 0 || location.Y >= map.Height)

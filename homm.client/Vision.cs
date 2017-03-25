@@ -8,24 +8,6 @@ using System.IO;
 
 namespace Homm.Client
 {
-    struct Bottom
-    {
-        public int X;
-        public int Y;
-        public Place coord;
-        public double travelCost;
-
-        public Bottom(int X, int Y, double travelCost)
-        {
-            this.X = X;
-            this.Y = Y;
-            this.travelCost = travelCost;
-            coord = new Place(X, Y);
-        }
-
-        public Bottom(Place coord, double travelCost) : this(coord.X, coord.Y, travelCost) { }
-    }
-
     class Vision
     {
         public Bottom[,] bottom_map;
@@ -43,15 +25,6 @@ namespace Homm.Client
 
         public void InitBottom()
         {
-            StreamWriter sw;
-
-            if(File.Exists(@"D:\Programmering\SKB\Cvark\homm.client\note.txt"))
-            {
-                File.Delete(@"D:\Programmering\SKB\Cvark\homm.client\note.txt");
-            }
-            FileStream file = new FileStream(@"D:\Programmering\SKB\Cvark\homm.client\note.txt", FileMode.OpenOrCreate, FileAccess.Write);
-            sw = new StreamWriter(file);
-
             for (int w = 0; w < widht; w++)
             {
                 for (int h = 0; h < height; h++)
@@ -69,13 +42,8 @@ namespace Homm.Client
                     {
                         bottom_map[w, h].travelCost = TileTerrain.Parse(type.Terrain.ToString()[0]).TravelCost;
                     }
-
-                    sw.Write($"[{w},{h}]:{bottom_map[w, h].travelCost}\t");
                 }
-                sw.WriteLine();
             }
-
-            sw.Close();
         }
     }
 }
