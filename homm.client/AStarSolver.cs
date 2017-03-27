@@ -16,11 +16,11 @@ namespace Homm.Client
         // Список звеньев передвижения
         private List<Chain> directions;
         // Карта игрового мира
-        private Bottom[,] map;
+        private Bottom[,] bottom_map;
         // конструктор, инициализирующий карту и заполняющий список звеньев передвижения
-        public AStarSolver(Bottom[,] map)
+        public AStarSolver(Bottom[,] bottom_map)
         {
-            this.map = map;
+            this.bottom_map = bottom_map;
             directions = new List<Chain>();
             directions.Add(new Chain(-1, -1, ((int)Direction.LeftUp).ToString())); // движение вверх-влево
             directions.Add(new Chain(-1,  1, ((int)Direction.LeftDown).ToString())); // движение вниз-влево
@@ -40,33 +40,35 @@ namespace Homm.Client
             public double travel_time; // Поле, считающее время пути path
 
             // Конструктор
-            public Chain(int x, int y)
+            public Chain(int X, int Y)
             {
-                this.X = x;
-                this.Y = y;
+                this.X = X;
+                this.Y = Y;
                 this.path = "";
                 this.travel_time = Double.MaxValue;
             }
-            //Перегруженный конструктор
-            public Chain(Place place) : this(place.X, place.Y) { }
+            public Chain(Place place) : this(place.X, place.Y) { } //Перегруженный конструктор
 
-            // Конструктор, заполняющий путь
-            public Chain(int x, int y, string path) : this(x, y)
+            // Конструктор, заполняющий время и путь
+            public Chain(Place place, string path, double travel_time) : this(place)
             {
                 this.path = path;
-            }
-
-            // Перегруженный конструктор
-            public Chain(Place place, string path) : this(place.X, place.Y, path) { }
-
-            // Конструктор, заполняющий время
-            public Chain(int x, int y, string path, double travel_time) : this(x, y, path)
-            {
                 this.travel_time = travel_time;
             }
 
-            // Перегруженный конструктор, заполняющий время
-            public Chain(Place place, string path, double travel_time) : this(place.X, place.Y, path, travel_time) { }
+            // Конструктор, заполняющий путь
+            public Chain(int X, int Y, string path) : this(X, Y)
+            {
+                this.path = path;
+            }
+            public Chain(Place place, string path) : this(place.X, place.Y, path) { } // Перегруженный Конструктор, заполняющий путь
+
+            // конструктор, заполняющий время
+            public Chain(int X, int Y, double travel_time) : this(X, Y)
+            {
+                this.travel_time = travel_time;
+            }
+            public Chain(Place place, double travel_time) : this(place.X, place.Y, travel_time) { } // Перегруженный Конструктор, заполняющий время
 
             // Переопределение оператора "+"
             public static Place operator +(Chain current, Chain shift)
@@ -117,10 +119,9 @@ namespace Homm.Client
             visited_list.Clear();
 
             // Создаем начальное звено
-            Chain chain = new Chain(start);
+            Chain chain = new Chain(start, 0);
             //Объект звена для выдачи окончательного пути
             Chain true_path = new Chain(start);
-
             Place place;
 
             // Добавляем звено в очередь на проверку
@@ -144,21 +145,12 @@ namespace Homm.Client
                     // соседнюю ячейку в список проверенных мест
                     visited_list.Add(place);
 
-                    // увеличение пути
+                    // увеличение пути и времени
                     Chain step = new Chain(place, chain.path + side.path);
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ВЕРОЯТНО ОШИБКА ЗДЕСЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-                    step.travel_time = chain.travel_time + map[place.X, place.Y].travelCost;
-
-                    //step.travel_time = chain.travel_time + TileTerrain.Parse(map.Objects. // Из списка объектов на карте
-                    //Where(x => x.Location.X == place.X && x.Location.Y == place.Y). // находим текущую точку
-                    //Select(x => x.Terrain). // выбираем тип ландшафта
-                    //FirstOrDefault(). // приводим к типу Terrain
-                    //ToString()[0]).TravelCost; // берем первый символ из слова ("Road" -> 'R') и получаем коэффициент
+                    step.travel_time = chain.travel_time + bottom_map[place.X, place.Y].travelCost;
 
                     if (place.Equals(finish) && step.travel_time< true_path.travel_time) //проверка на достижение цели
                     {
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!СЮДА НЕ ПОПАДАЕМ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         true_path.travel_time = step.travel_time;
                         true_path.path = step.path;
                     }
@@ -178,17 +170,10 @@ namespace Homm.Client
         private bool InRange(Place place)
         {
             // Если мы оказываемся за пределами игрового мира, возвращаем false
-            if (place.X < 0 || place.X >=  map.GetLength(0) || place.Y < 0 || place.Y >= map.GetLength(1))
+            if (place.X < 0 || place.X >=  bottom_map.GetLength(0) || place.Y < 0 || place.Y >= bottom_map.GetLength(1))
                 return false;
 
-            // Считываем препятствие, находящееся на этой клетке
-            //string barrier = map.Objects.
-            //    Where(x => x.Location.X == place.X && x.Location.Y == place.Y)
-            //    .FirstOrDefault().ToString();
-
-            // Если это стена или гарнизон, возвращаем false
-            //if (barrier.Equals("Wall") || barrier.StartsWith("Neutral army"))
-            if(map[place.X,place.Y].travelCost==-1)
+            if(bottom_map[place.X,place.Y].travelCost==-1)
             {
                 return false;
             }

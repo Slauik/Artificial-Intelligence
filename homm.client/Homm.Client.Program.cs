@@ -59,7 +59,7 @@ namespace Homm.Client
 
             // Получаем путь из начальной точки в точку c координатмаи (0, 9)
             AStarSolver pathSolver = new AStarSolver(v.bottom_map);
-            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(2, 3));
+            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(4, 4));
 
             // Перемещаемся по полученному пути
             foreach (var e in path)
