@@ -34,7 +34,11 @@ namespace Homm.Client
                     Select(x => x).
                     FirstOrDefault();
 
-                    if (type.ToString().Equals("Wall"))
+                    if (type == null)
+                    {
+                        bottom_map[w, h].travelCost = -1;
+                    }
+                    else if (type.ToString().Equals("Wall") /*|| type.ToString().Equals("")*/)
                     {
                         bottom_map[w, h].travelCost = -1;
                     }

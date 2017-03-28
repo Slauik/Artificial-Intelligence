@@ -15,11 +15,13 @@ namespace Homm.Client
     {
         // Список звеньев передвижения
         private List<Chain> directions;
+        //private MapData map;
         // Карта игрового мира
         private Bottom[,] bottom_map;
         // конструктор, инициализирующий карту и заполняющий список звеньев передвижения
-        public AStarSolver(Bottom[,] bottom_map)
+        public AStarSolver(/*MapData map */Bottom[,] bottom_map)
         {
+            //this.map = map;
             this.bottom_map = bottom_map;
             directions = new List<Chain>();
             directions.Add(new Chain(-1, -1, ((int)Direction.LeftUp).ToString())); // движение вверх-влево
@@ -170,10 +172,10 @@ namespace Homm.Client
         private bool InRange(Place place)
         {
             // Если мы оказываемся за пределами игрового мира, возвращаем false
-            if (place.X < 0 || place.X >=  bottom_map.GetLength(0) || place.Y < 0 || place.Y >= bottom_map.GetLength(1))
+            if (place.X < 0 || place.X >= bottom_map.GetLength(0) || place.Y < 0 || place.Y >= bottom_map.GetLength(1))
                 return false;
 
-            if(bottom_map[place.X,place.Y].travelCost==-1)
+            if(bottom_map[place.X, place.Y].travelCost == -1)
             {
                 return false;
             }
