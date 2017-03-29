@@ -21,18 +21,15 @@ namespace Homm.Client
             X = ax;
             Y = ay;
         }
+
+        public static explicit operator Place(LocationInfo v) //явное приведение типа
+        {
+            return new Place(v.X, v.Y);
+        }
     }
 
     class Program
     {
-        //static FileStream info;
-        //static FileStream _map;
-
-        //static StreamWriter infoSW;
-        //static StreamWriter mapSW;
-
-        //static int step = 0;
-
         // Вставьте сюда свой личный CvarcTag для того, чтобы учавствовать в онлайн соревнованиях.
         public static readonly Guid CvarcTag = Guid.Parse("00000000-0000-0000-0000-000000000000");
 
@@ -41,39 +38,14 @@ namespace Homm.Client
 
         public static void Main(string[] args)
         {
-            //if (File.Exists(@"C:\Users\Слава\Desktop\info.txt"))
-            //{
-            //    File.Delete(@"C:\Users\Слава\Desktop\info.txt");
-            //    File.Delete(@"C:\Users\Слава\Desktop\map.txt");
-            //}
-            //info = new FileStream(@"C:\Users\Слава\Desktop\info.txt", FileMode.OpenOrCreate, FileAccess.Write);
-            //_map = new FileStream(@"C:\Users\Слава\Desktop\map.txt", FileMode.OpenOrCreate, FileAccess.Write);
-
-            //infoSW = new StreamWriter(info);
-            //mapSW = new StreamWriter(_map);
-
             Connect(args); //устанавливаем подключение к серверу
 
             sensorData = client.HireUnits(1);
+            AI ai = new AI(sensorData);
 
-            Vision v = new Vision(sensorData.Map);
-            v.InitBottom();
-
-            // Получаем путь из начальной точки в точку c координатмаи (0, 9)
-            AStarSolver pathSolver = new AStarSolver(/*sensorData.Map*/v.bottom_map);
-            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(1,4));
-
-
-            //var path = new[] { Direction.RightDown, Direction.RightUp, Direction.RightDown, Direction.RightUp, Direction.LeftDown, Direction.Down, Direction.RightDown, Direction.RightDown, Direction.RightUp };
             // Перемещаемся по полученному пути
-            foreach (var e in path)
-                sensorData = client.Move(e);
-
-
-            //mapSW.Close();
-            //infoSW.Close();
-
-
+            //foreach (var e in path)
+            //    sensorData = client.Move(e);
             client.Exit();
         }
 
@@ -158,48 +130,6 @@ namespace Homm.Client
             Console.WriteLine(GetObjectAt(data.Map, location.NeighborAt(Direction.LeftUp)));
             //Console.ReadLine();
         }
-
-        //static string GetMap(MapData map)
-        //{
-        //    int height = map.Height;
-        //    int width = map.Width;
-
-        //    for (int i = 0; i < height; i++)
-        //    {
-        //        for (int j = 0; j < width; j++)
-        //        {
-        //            mapSW.Write((GetObjectAt(map, new Location(i, j)))[0] + " ");
-        //        }
-        //        mapSW.WriteLine();
-        //    }
-
-        //    return " ";
-
-        //}
-
-        //static string GetFuckingMap(MapData map)
-        //{
-        //    int height = map.Height;
-        //    int width = map.Width;
-
-        //    for (int i = 0; i < height; i++)
-        //    {
-        //        for (int j = 0; j < width; j++)
-        //        {
-        //            infoSW.WriteLine($"({i}, {j})");
-
-        //            var mas_tile = map.Objects.Where(x => x.Location.X == i && x.Location.Y == j).Select(x => x.Terrain);
-
-        //            foreach (var item in mas_tile)
-        //            {
-        //                infoSW.WriteLine(item);
-        //            }
-        //            infoSW.WriteLine("------------------------------------------------------");
-        //        }
-        //    }
-        //    return " ";
-        //}
-
 
         //Получить информацию о ячейке
         static string GetObjectAt(MapData map, Location location)

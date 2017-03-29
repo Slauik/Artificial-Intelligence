@@ -8,6 +8,12 @@ using System.IO;
 
 namespace Homm.Client
 {
+    using MineEnter = HoMM.ClientClasses.Mine;
+    using DwellingEnter = HoMM.ClientClasses.Dwelling;
+    using Garrison = HoMM.ClientClasses.Garrison;
+    using ResourcePile = HoMM.ClientClasses.ResourcePile;
+    using NeutralArmy = HoMM.ClientClasses.NeutralArmy;
+    using Hero = HoMM.ClientClasses.Hero;
     //Структура Bottom - тип элементов карты недвижимых объектов
     struct Bottom
     {
@@ -15,6 +21,8 @@ namespace Homm.Client
         public int Y;
         public Place coord;
         public double travelCost;
+        public MineEnter mineIsHere;
+        public DwellingEnter dwellingIsHere;
 
         public Bottom(int X, int Y, double travelCost)
         {
@@ -22,9 +30,12 @@ namespace Homm.Client
             this.Y = Y;
             this.travelCost = travelCost;
             coord = new Place(X, Y);
+            mineIsHere = null;
+            dwellingIsHere = null;
         }
 
         public Bottom(Place coord, double travelCost) : this(coord.X, coord.Y, travelCost) { }
+
     }
 
     struct Top
@@ -32,14 +43,20 @@ namespace Homm.Client
         public int X;
         public int Y;
         public Place coord;
-        List<object> objects;
+        public Garrison garrisonIsHere;
+        public NeutralArmy neutralArmyIsHere;
+        public ResourcePile resourcePileIsHere;
+        public Hero heroIsHere;
 
         public Top(int X, int Y)
         {
             this.X = X;
             this.Y = Y;
             coord = new Place(X, Y);
-            objects = new List<object>();
+            garrisonIsHere = null;
+            neutralArmyIsHere = null;
+            resourcePileIsHere = null;
+            heroIsHere = null;
         }
 
         public Top(Place coord) : this(coord.X, coord.Y) { }
@@ -47,8 +64,10 @@ namespace Homm.Client
 
     class Vision
     {
+        StreamWriter sw = new StreamWriter(Directory.GetCurrentDirectory() + @"\map.txt");
+
         public Bottom[,] bottom_map;
-        public Top[,] top_map;
+        //public Top[,] top_map;
         public int widht, height;
 
         private MapData map;
@@ -69,28 +88,53 @@ namespace Homm.Client
             FirstOrDefault();
         }
 
-        public void InitBottom()
+        private void FillCurrentBottom(int w, int h)
         {
-            for (int w = 0; w < widht; w++)
-            {
-                for (int h = 0; h < height; h++)
-                {
-                    MapObjectData type = CurrentObject(w, h);
+            MapObjectData temp = CurrentObject(w, h);
 
-                    if (type == null)
+            
+            if (temp.ToString().Equals("Wall")) // Если препятстиве, то стоймость путь равно -1
+            {
+                bottom_map[w, h].travelCost = -1;
+            }
+            else
+            {
+                bottom_map[w, h].travelCost = TileTerrain.Parse(temp.Terrain.ToString()[0]).TravelCost;
+
+                if (temp.ToString().StartsWith("Mine"))
+                {
+                    bottom_map[w, h].mineIsHere.Owner = temp.Mine.Owner;
+                    bottom_map[w, h].mineIsHere.Resource = temp.Mine.Resource;
+                }
+                else if (temp.ToString().StartsWith("Dwelling"))
+                {
+                    bottom_map[w, h].dwellingIsHere.Owner = temp.Dwelling.Owner;
+                    bottom_map[w, h].dwellingIsHere.UnitType = temp.Dwelling.UnitType;
+                    bottom_map[w, h].dwellingIsHere.AvailableToBuyCount = temp.Dwelling.AvailableToBuyCount;
+                }
+            }
+        }
+
+        public void InitMap()
+        {
+            for (int h = 0; h < height; h++)
+            {
+                for (int w = 0; w < widht; w++)
+                {
+                    if (CurrentObject(w, h) == null)
                     {
                         bottom_map[w, h].travelCost = -2; // Если туман войны - то ставим значение стоймости пути на этой ячейке равной -2
                     }
-                    else if (type.ToString().Equals("Wall")) // Если препятстиве, то стоймость путь равно -1
-                    {
-                        bottom_map[w, h].travelCost = -1;
-                    }
                     else
                     {
-                        bottom_map[w, h].travelCost = TileTerrain.Parse(type.Terrain.ToString()[0]).TravelCost;
+                        FillCurrentBottom(w, h);
                     }
+                    sw.Write($"{bottom_map[w, h].travelCost, 5}\t\t");
                 }
+                sw.WriteLine();
+                
             }
+            sw.Close();
         }
 
         // Когда происходит открытие нового участка карты, проивзодим
@@ -107,35 +151,8 @@ namespace Homm.Client
                     {
                         if (CurrentObject(w,h) != null)
                         {
-                            bottom_map[w, h].travelCost = TileTerrain.Parse(CurrentObject(w, h).Terrain.ToString()[0]).TravelCost;
+                            FillCurrentBottom(w, h);
                         }
-                    }
-                }
-            }
-        }
-
-        public void InitTop()
-        {
-            for (int w = 0; w < widht; w++)
-            {
-                for (int h = 0; h < height; h++)
-                {
-                    var type = map.Objects. // Из списка объектов на карте 
-                    Where(x => x.Location.X == w && x.Location.Y == h). // находим текущую точку 
-                    Select(x => x).
-                    FirstOrDefault();
-
-                    if (type == null)
-                    {
-                        bottom_map[w, h].travelCost = -1;
-                    }
-                    else if (type.ToString().Equals("Wall") /*|| type.ToString().Equals("")*/)
-                    {
-                        bottom_map[w, h].travelCost = -1;
-                    }
-                    else
-                    {
-                        bottom_map[w, h].travelCost = TileTerrain.Parse(type.Terrain.ToString()[0]).TravelCost;
                     }
                 }
             }
