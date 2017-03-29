@@ -33,14 +33,14 @@ Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\
 Loading C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\UnityCommons.dll into Unity Child Domain
 Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\Ionic.Zip.dll (this message is harmless)
 Loading C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\Ionic.Zip.dll into Unity Child Domain
-- Completed reload, in  0.093 seconds
+- Completed reload, in  0.073 seconds
 Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\System.dll (this message is harmless)
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 2.289878 ms
+UnloadTime: 2.099799 ms
 Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\System.Runtime.Serialization.dll (this message is harmless)
 Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\System.Xml.Linq.dll (this message is harmless)
 Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\System.Xml.dll (this message is harmless)
@@ -49,7 +49,7 @@ Loaded settings, version=3
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-**************  UNITY STARTED 3/28/2017 5:08:21 PM
+**************  UNITY STARTED 3/29/2017 12:47:00 PM
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
@@ -58,8 +58,8 @@ DlcLoader.LoadAssemblies: Loading assembly pudge.dll
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Non platform assembly: data-107BF428 (this message is harmless)
-Fallback handler could not load library C:/Projects/GitProjects/ArtificalIntelligence/cvark/Binaries/ucvarc_Data/Mono/data-107BF428.dll
+Non platform assembly: data-11351418 (this message is harmless)
+Fallback handler could not load library C:/Projects/GitProjects/ArtificalIntelligence/cvark/Binaries/ucvarc_Data/Mono/data-11351418.dll
 Dispatcher.FillLoader: pudge final is loaded
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
@@ -76,8 +76,8 @@ DlcLoader.LoadAssemblies: Loading assembly homm.dll
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Non platform assembly: data-10839BB0 (this message is harmless)
-Fallback handler could not load library C:/Projects/GitProjects/ArtificalIntelligence/cvark/Binaries/ucvarc_Data/Mono/data-10839BB0.dll
+Non platform assembly: data-113BBF80 (this message is harmless)
+Fallback handler could not load library C:/Projects/GitProjects/ArtificalIntelligence/cvark/Binaries/ucvarc_Data/Mono/data-113BBF80.dll
 Dispatcher.FillLoader: homm Level1 is loaded
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
@@ -94,107 +94,20 @@ DlcLoader.LoadAssemblies: Loaded assembly homm.dll
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-PlayServer.HasGame: Requested game homm.Level1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Game found in loader
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Accepted client Left
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Accepted 1 connections
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Dispatcher.IntroductionTick: Starting remote game
+Starting tutorial game
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 0.722104 ms
+UnloadTime: 0.522178 ms
 
 Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 275.
-Total: 1.095266 ms (FindLiveObjects: 0.032020 ms CreateObjectMapping: 0.022168 ms MarkObjects: 1.030404 ms  DeleteObjects: 0.006978 ms)
+Total: 0.673249 ms (FindLiveObjects: 0.036536 ms CreateObjectMapping: 0.053777 ms MarkObjects: 0.573083 ms  DeleteObjects: 0.004105 ms)
 
-PlayServer.HasGame: Requested game homm.Level3
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Game found in loader
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Accepted client Left
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Accepted 1 connections
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-game over. disposing
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\I18N.West.dll (this message is harmless)
-UnloadTime: 155.176010 ms
-
-Unloading 228 unused Assets to reduce memory usage. Loaded Objects now: 3202.
-Total: 2.258679 ms (FindLiveObjects: 0.135882 ms CreateObjectMapping: 0.145323 ms MarkObjects: 1.564900 ms  DeleteObjects: 0.411340 ms)
-
-Dispatcher.IntroductionTick: Starting remote game
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 0.541885 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3196.
-Total: 2.979962 ms (FindLiveObjects: 0.181039 ms CreateObjectMapping: 0.270121 ms MarkObjects: 2.514432 ms  DeleteObjects: 0.013136 ms)
-
-PlayServer.HasGame: Requested game homm.Level3
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Game found in loader
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Accepted client Left
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-PlayServer.HasGame: Accepted 1 connections
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-game over. disposing
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 52.133942 ms
-
-Unloading 235 unused Assets to reduce memory usage. Loaded Objects now: 3202.
-Total: 2.591200 ms (FindLiveObjects: 0.157639 ms CreateObjectMapping: 0.151892 ms MarkObjects: 1.693804 ms  DeleteObjects: 0.586632 ms)
-
-Dispatcher.IntroductionTick: Starting remote game
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 2)
-UnloadTime: 0.554612 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 3196.
-Total: 1.907274 ms (FindLiveObjects: 0.188839 ms CreateObjectMapping: 0.138755 ms MarkObjects: 1.567364 ms  DeleteObjects: 0.011084 ms)
-
+Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\System.Windows.Forms.dll (this message is harmless)
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 2570 -> priority: 1 
+  Thread -> id: ba8 -> priority: 1 
+Platform assembly: C:\Projects\GitProjects\ArtificalIntelligence\cvark\Binaries\ucvarc_Data\Managed\I18N.West.dll (this message is harmless)
 Dispatcher.OnDispose: GLOBAL EXIT
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)

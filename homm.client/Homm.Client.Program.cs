@@ -22,24 +22,6 @@ namespace Homm.Client
             Y = ay;
         }
     }
-    //Структура Bottom - тип элементов карты недвижимых эелементов
-    struct Bottom
-    {
-        public int X;
-        public int Y;
-        public Place coord;
-        public double travelCost;
-
-        public Bottom(int X, int Y, double travelCost)
-        {
-            this.X = X;
-            this.Y = Y;
-            this.travelCost = travelCost;
-            coord = new Place(X, Y);
-        }
-
-        public Bottom(Place coord, double travelCost) : this(coord.X, coord.Y, travelCost) { }
-    }
 
     class Program
     {
@@ -79,7 +61,7 @@ namespace Homm.Client
 
             // Получаем путь из начальной точки в точку c координатмаи (0, 9)
             AStarSolver pathSolver = new AStarSolver(/*sensorData.Map*/v.bottom_map);
-            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(4, 4));
+            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(1,4));
 
 
             //var path = new[] { Direction.RightDown, Direction.RightUp, Direction.RightDown, Direction.RightUp, Direction.LeftDown, Direction.Down, Direction.RightDown, Direction.RightDown, Direction.RightUp };

@@ -8,9 +8,47 @@ using System.IO;
 
 namespace Homm.Client
 {
+    //Структура Bottom - тип элементов карты недвижимых объектов
+    struct Bottom
+    {
+        public int X;
+        public int Y;
+        public Place coord;
+        public double travelCost;
+
+        public Bottom(int X, int Y, double travelCost)
+        {
+            this.X = X;
+            this.Y = Y;
+            this.travelCost = travelCost;
+            coord = new Place(X, Y);
+        }
+
+        public Bottom(Place coord, double travelCost) : this(coord.X, coord.Y, travelCost) { }
+    }
+
+    struct Top
+    {
+        public int X;
+        public int Y;
+        public Place coord;
+        List<object> objects;
+
+        public Top(int X, int Y)
+        {
+            this.X = X;
+            this.Y = Y;
+            coord = new Place(X, Y);
+            objects = new List<object>();
+        }
+
+        public Top(Place coord) : this(coord.X, coord.Y) { }
+    }
+
     class Vision
     {
         public Bottom[,] bottom_map;
+        public Top[,] top_map;
         public int widht, height;
 
         private MapData map;
@@ -23,7 +61,47 @@ namespace Homm.Client
             height = bottom_map.GetLength(1);
         }
 
+        private MapObjectData CurrentObject(int w, int h)
+        {
+            return map.Objects. // Из списка объектов на карте 
+            Where(x => x.Location.X == w && x.Location.Y == h). // находим текущую точку 
+            Select(x => x).
+            FirstOrDefault();
+        }
+
         public void InitBottom()
+        {
+            for (int w = 0; w < widht; w++)
+            {
+                for (int h = 0; h < height; h++)
+                {
+                    MapObjectData type = CurrentObject(w, h);
+
+                    if (type == null)
+                    {
+                        bottom_map[w, h].travelCost = -1;
+                    }
+                    else if (type.ToString().Equals("Wall") /*|| type.ToString().Equals("")*/)
+                    {
+                        bottom_map[w, h].travelCost = -1;
+                    }
+                    else
+                    {
+                        bottom_map[w, h].travelCost = TileTerrain.Parse(type.Terrain.ToString()[0]).TravelCost;
+                    }
+                }
+            }
+        }
+
+        // Когда происходит открытие нового участка карты, проивзодим
+        // обновление карты
+        public void UpdateBottom()
+        {
+            // Ищем позицию героя, и на определенном радиусе от него, перезаписываем карту
+
+        }
+
+        public void InitTop()
         {
             for (int w = 0; w < widht; w++)
             {
