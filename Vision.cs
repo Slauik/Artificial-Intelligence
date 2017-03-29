@@ -79,9 +79,9 @@ namespace Homm.Client
 
                     if (type == null)
                     {
-                        bottom_map[w, h].travelCost = -1;
+                        bottom_map[w, h].travelCost = -2; // Если туман войны - то ставим значение стоймости пути на этой ячейке равной -2
                     }
-                    else if (type.ToString().Equals("Wall") /*|| type.ToString().Equals("")*/)
+                    else if (type.ToString().Equals("Wall")) // Если препятстиве, то стоймость путь равно -1
                     {
                         bottom_map[w, h].travelCost = -1;
                     }
@@ -98,7 +98,20 @@ namespace Homm.Client
         public void UpdateBottom()
         {
             // Ищем позицию героя, и на определенном радиусе от него, перезаписываем карту
-
+            for (int w = 0; w < widht; w++)
+            {
+                for (int h = 0; h < height; h++)
+                {
+                    // Если это был туман войны, то проверяем новое значение
+                    if (bottom_map[w,h].travelCost == -2)
+                    {
+                        if (CurrentObject(w,h) != null)
+                        {
+                            bottom_map[w, h].travelCost = TileTerrain.Parse(CurrentObject(w, h).Terrain.ToString()[0]).TravelCost;
+                        }
+                    }
+                }
+            }
         }
 
         public void InitTop()
