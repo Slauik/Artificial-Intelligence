@@ -11,11 +11,12 @@ namespace Homm.Client
     class AI
     {
         private HommSensorData sensorData;
-        private Vision myVision;
+        public Vision myVision;
 
         public AI(HommSensorData sensorData)
         {
             this.sensorData = sensorData;
+            myVision = new Vision(sensorData.Map);
             myVision.InitMap();
         }
 
@@ -24,36 +25,31 @@ namespace Homm.Client
             return sensorData.MyTreasury.Where(t => t.Key.Equals(resType)).Select(t => t.Value).FirstOrDefault();
         }
 
-        private bool WantToBuy(UnitType unitType, int avaliableCount) //переделать
+        private bool CanIHireUnit(UnitType unitType, int avaliableCount) //
         {
-            if (myResourse(Resource.Gold) <= 0) //поменять 0 на значение из констант
+            if (myResourse(Resource.Gold) <= 0 && avaliableCount <= 0) //
             {
                 return false;
             }
-            if (avaliableCount > 0)
-            {
-                
-                switch (unitType)
-                {
-                    case UnitType.Infantry:
 
-                        break;
-                    case UnitType.Ranged:
-                        break;
-                    case UnitType.Cavalry:
-                        break;
-                    case UnitType.Militia:
-                        if (myResourse(Resource.Gold) <= avaliableCount) //сюда смотри
-                        {
-                            return true;
-                        }
-                        break;
-                    default:
-                        break;
+            var dictionary = UnitsConstants.Current.UnitCost.Where(t=>t.Key.Equals(unitType)).Select(t=>t.Value).FirstOrDefault();
+
+            foreach (var item in dictionary)
+            {
+                if (myResourse(item.Key) >= item.Value)
+                {
+                    continue;
+                }
+                else
+                {
+                    return false;
                 }
             }
-
+            return true;
         }
+    
+
+
 
         public void Method()
         {
@@ -61,14 +57,18 @@ namespace Homm.Client
 
             if (myVision.bottom_map[myLocation.X, myLocation.Y].dwellingIsHere != null)
             {
-                
+                if(CanIHireUnit(myVision.bottom_map[myLocation.X, myLocation.Y].
+                    dwellingIsHere.UnitType, myVision.bottom_map[myLocation.X, myLocation.Y].
+                    dwellingIsHere.AvailableToBuyCount))
+                {
+                    
+                }
             }
 
 
 
             // Получаем путь из начальной точки в точку c координатмаи (0, 9)
-            AStarSolver pathSolver = new AStarSolver(/*sensorData.Map*/v.bottom_map);
-            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(1, 4));
+            
 
 
             //var path = new[] { Direction.RightDown, Direction.RightUp, Direction.RightDown, Direction.RightUp, Direction.LeftDown, Direction.Down, Direction.RightDown, Direction.RightDown, Direction.RightUp };

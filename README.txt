@@ -1,3 +1,6 @@
+Artifical Intelligence v 1.0.0.2 (29.03.2017)
+- метод CanIHireUnit (WantToBuy)
+- возвращение работоспособности
 Artifical Intelligence v 1.0.0.1 (29.03.2017)
 - Изменили структуру Bottom
 - Изменили структуру Top

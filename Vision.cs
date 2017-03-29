@@ -100,18 +100,25 @@ namespace Homm.Client
             else
             {
                 bottom_map[w, h].travelCost = TileTerrain.Parse(temp.Terrain.ToString()[0]).TravelCost;
-
-                if (temp.ToString().StartsWith("Mine"))
+                try
                 {
-                    bottom_map[w, h].mineIsHere.Owner = temp.Mine.Owner;
-                    bottom_map[w, h].mineIsHere.Resource = temp.Mine.Resource;
+                    if (temp.ToString().StartsWith("Mine"))
+                    {
+                        bottom_map[w, h].mineIsHere.Owner = temp.Mine.Owner.ToString(); /*(temp.Mine.Owner == null ? "empty" : temp.Mine.Owner.ToString());*/
+                        bottom_map[w, h].mineIsHere.Resource = temp.Mine.Resource;
+                    }
+                    else if (temp.ToString().StartsWith("Dwelling"))
+                    {
+                        bottom_map[w, h].dwellingIsHere.Owner = temp.Dwelling.Owner.ToString();
+                        bottom_map[w, h].dwellingIsHere.UnitType = temp.Dwelling.UnitType;
+                        bottom_map[w, h].dwellingIsHere.AvailableToBuyCount = temp.Dwelling.AvailableToBuyCount;
+                    }
                 }
-                else if (temp.ToString().StartsWith("Dwelling"))
+                catch (Exception)
                 {
-                    bottom_map[w, h].dwellingIsHere.Owner = temp.Dwelling.Owner;
-                    bottom_map[w, h].dwellingIsHere.UnitType = temp.Dwelling.UnitType;
-                    bottom_map[w, h].dwellingIsHere.AvailableToBuyCount = temp.Dwelling.AvailableToBuyCount;
+                    
                 }
+                
             }
         }
 

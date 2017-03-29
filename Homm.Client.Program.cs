@@ -40,12 +40,19 @@ namespace Homm.Client
         {
             Connect(args); //устанавливаем подключение к серверу
 
-            sensorData = client.HireUnits(1);
+
             AI ai = new AI(sensorData);
+            AStarSolver pathSolver = new AStarSolver(/*sensorData.Map*/ai.myVision.bottom_map);
+            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(1, 1));
+            foreach (var e in path) sensorData = client.Move(e);
+
+            path = pathSolver.GoTo(sensorData.Location, new LocationInfo(0, 0));
+            foreach (var e in path) sensorData = client.Move(e);
+
+            sensorData = client.HireUnits(1);
 
             // Перемещаемся по полученному пути
-            //foreach (var e in path)
-            //    sensorData = client.Move(e);
+
             client.Exit();
         }
 
@@ -62,7 +69,7 @@ namespace Homm.Client
             client.OnSensorDataReceived += Print;
             client.OnInfo += OnInfo;
 
-            var sensorData = client.Configurate(
+            sensorData = client.Configurate(
                 ip, port, CvarcTag,
 
                 timeLimit: 1000,              // Продолжительность матча в секундах (исключая время, которое "думает" ваша программа). 
@@ -78,7 +85,7 @@ namespace Homm.Client
 
                 debugMap: false,            // Вы можете использовать отладочную простую карту, чтобы лучше понять, как устроен игоровой мир.
 
-                level: HommLevel.Level3,    // Здесь можно выбрать уровень. На уровне два на карте присутствует оппонент.
+                level: HommLevel.Level2,    // Здесь можно выбрать уровень. На уровне два на карте присутствует оппонент.
 
                 isOnLeftSide: true          // Вы можете указать, с какой стороны будет находиться замок героя при игре на втором уровне.
                                             // Помните, что на сервере выбор стороны осуществляется случайным образом, поэтому ваш код
@@ -141,37 +148,6 @@ namespace Homm.Client
             return map.Objects.
                 Where(x => x.Location.X == location.X && x.Location.Y == location.Y)
                 .FirstOrDefault()?.ToString() ?? "Nothing";
-
-            //if (temp.StartsWith("Hero"))
-            //{
-            //    return "H";
-                
-            //}
-            //if (temp.StartsWith("Wall"))
-            //{
-            //    return "w";
-            //}
-            //if (temp.StartsWith("Garrison with"))
-            //{
-            //    return "g";
-            //}
-            //if (temp.StartsWith("Neutral army with"))
-            //{
-            //    return "n";
-            //}
-            //if (temp.StartsWith("Mine of"))
-            //{
-            //    return "m";
-            //}
-            //if (temp.StartsWith("Dwelling of"))
-            //{
-            //    return "d";
-            //}
-            //if (temp.StartsWith("Resource pile of"))
-            //{
-            //    return "r";
-            //}
-            //return "-";
         }
 
         static void OnInfo(string infoMessage)
