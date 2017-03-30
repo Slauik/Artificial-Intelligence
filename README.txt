@@ -1,3 +1,7 @@
+Artifical Intelligence v 1.0.1.1 (30.03.2017)
+- упрощена структура Bottom
+- добавлены списки mines, dwellings
+
 Artifical Intelligence v 1.0.1.0 (30.03.2017)
 - Структура Place перемещена из класса HoMM.Client.Program в класс AStarSolver
 - Структура Chain перемещена из класса AStarSolver в пространство имен Homm.Client

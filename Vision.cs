@@ -16,6 +16,7 @@ namespace Homm.Client
     using NeutralArmy = HoMM.ClientClasses.NeutralArmy;
     using Hero = HoMM.ClientClasses.Hero;
 
+    #region strcts
     // Структура Bottom - тип элементов карты недвижимых объектов
     struct Bottom
     {
@@ -23,8 +24,8 @@ namespace Homm.Client
         public int Y; // Позиция по оси Y
         public Place coord; // Поле Place, записывающее координаты X, Y
         public double travelCost; // Время передвижения по данной ячейке
-        public MineEnter mineIsHere; // Есть ли на данной ячейке шахта 
-        public DwellingEnter dwellingIsHere; // Есть ли на данной ячейке пункт для найма юнитов
+        //public MineEnter mineIsHere; // Есть ли на данной ячейке шахта 
+        //public DwellingEnter dwellingIsHere; // Есть ли на данной ячейке пункт для найма юнитов
 
         // Конструктор
         public Bottom(int X, int Y, double travelCost)
@@ -33,11 +34,8 @@ namespace Homm.Client
             this.Y = Y;
             this.travelCost = travelCost;
             coord = new Place(X, Y);
-            // ЗДАРОВО, КОСТЫЛЬ!
-            // Нельзя назначать нулевую ссылку на поля, иначе не будте работать, сверхразум
-            mineIsHere = new MineEnter(Resource.Ebony, "kek");
-            //mineIsHere = null;
-            dwellingIsHere = new DwellingEnter(UnitType.Cavalry, 0, "kek");
+            //mineIsHere = new MineEnter(Resource.Gold, "Empty");
+            //dwellingIsHere = new DwellingEnter(UnitType.Infantry, 0, "Empty");
         }
 
         // Перегруженный конструктор
@@ -45,35 +43,61 @@ namespace Homm.Client
 
     }
 
-    // Структура Top - тип элементов карты объектов, изменяющих свое состояние
-    struct Top
+    struct MinesPlaces
     {
-        public int X; // Позиция по оси Х
-        public int Y; // Позиция по оси Y
-        public Place coord; // Поле Place, записывающее координаты X, Y
-        public Garrison garrisonIsHere; // Есть ли на данной ячейке гарнизон
-        public NeutralArmy neutralArmyIsHere; // Есть ли на данной ячейке нейтральная армия
-        public ResourcePile resourcePileIsHere; // Есть ли на данной ячейке куча с ресурсами
-        public Hero heroIsHere; // Есть ли на данной ячейке вражеский герой
+        public Place coord;
+        public MineEnter mineIsHere;
 
-        // Конструктор
-        public Top(int X, int Y)
+        public MinesPlaces(Place coord, MineEnter mineIsHere)
         {
-            this.X = X;
-            this.Y = Y;
-            coord = new Place(X, Y);
-            // СУЙ сюда еще костыли
-            garrisonIsHere = null;
-            neutralArmyIsHere = null;
-            resourcePileIsHere = null;
-            heroIsHere = null;
+            this.coord = coord;
+            this.mineIsHere = mineIsHere;
         }
-
-        // Перегруженный конструктор
-        public Top(Place coord) : this(coord.X, coord.Y) { }
     }
 
+    struct DwellingsPlaces
+    {
+        public Place coord;
+        public DwellingEnter dwellingIsHere;
+
+        public DwellingsPlaces(Place coord, DwellingEnter dwellingIsHere)
+        {
+            this.coord = coord;
+            this.dwellingIsHere = dwellingIsHere;
+        }
+    }
+
+    // Структура Top - тип элементов карты объектов, изменяющих свое состояние
+    //struct Top
+    //{
+    //    public int X; // Позиция по оси Х
+    //    public int Y; // Позиция по оси Y
+    //    public Place coord; // Поле Place, записывающее координаты X, Y
+    //    public Garrison garrisonIsHere; // Есть ли на данной ячейке гарнизон
+    //    public NeutralArmy neutralArmyIsHere; // Есть ли на данной ячейке нейтральная армия
+    //    public ResourcePile resourcePileIsHere; // Есть ли на данной ячейке куча с ресурсами
+    //    public Hero heroIsHere; // Есть ли на данной ячейке вражеский герой
+
+    //    // Конструктор
+    //    public Top(int X, int Y)
+    //    {
+    //        this.X = X;
+    //        this.Y = Y;
+    //        coord = new Place(X, Y);
+    //        // СУЙ сюда еще костыли
+    //        garrisonIsHere = null;
+    //        neutralArmyIsHere = null;
+    //        resourcePileIsHere = null;
+    //        heroIsHere = null;
+    //    }
+
+    //    // Перегруженный конструктор
+    //    public Top(Place coord) : this(coord.X, coord.Y) { }
+    //}
+
     // Класс Vision - ИИ будет использовать зрение для ориентации в игровом мире
+    #endregion
+
     class Vision
     {
         // Запись карты 
@@ -83,7 +107,13 @@ namespace Homm.Client
         //public Top[,] top_map; // Карта изменяющихся объектов
         public int widht, height; // Длина и ширина карты
 
+
+        public List<MinesPlaces> mines = new List<MinesPlaces>();
+        public List<DwellingsPlaces> dwellings = new List<DwellingsPlaces>();
+
+
         private MapData map; // Полная карта мира
+//        private List<MapObjectData> localMapObjects;
 
         // Констркутор
         public Vision(MapData map)
@@ -113,7 +143,7 @@ namespace Homm.Client
             FirstOrDefault();
         }
 
-        // Метод, заносящий послаемую клетку в карту Bottom
+        // Метод, заносящий посылаемую клетку в карту Bottom
         private void FillCurrentBottom(int w, int h)
         {
             MapObjectData temp = CurrentObject(w, h);
@@ -129,27 +159,33 @@ namespace Homm.Client
                 bottom_map[w, h].travelCost = TileTerrain.Parse(temp.Terrain.ToString()[0]).TravelCost;
 
                 // Если на данной клетке находится вход в шахту
-                if (temp.Mine != null /*.ToString().Contains("Mine")*/)
+                if (temp.Mine != null)
                 {
                     // Записываем владельца этой шахты и тип добываемого ресурса
-                    bottom_map[w, h].mineIsHere.Owner = temp.Mine.Owner.ToString(); /*(temp.Mine.Owner == null ? "empty" : temp.Mine.Owner.ToString());*/
-                    bottom_map[w, h].mineIsHere.Resource = temp.Mine.Resource;
+                    //bottom_map[w, h].mineIsHere.Owner = temp.Mine.Owner.ToString();
+                    //bottom_map[w, h].mineIsHere.Resource = temp.Mine.Resource;
+                    mines.Add(new MinesPlaces(new Place(w, h), temp.Mine));
+
                 }
                 // Иначе если на данной клетке находится вход в пункт найма юнитов
-                else if (temp.Dwelling != null /*.ToString().Contains("Dwelling")*/)
+                else if (temp.Dwelling != null)
                 {
                     // Записываем владельца этого пункта, тип юнитов нанимаемых здесь и допустимое количество для найма
-                    bottom_map[w, h].dwellingIsHere.Owner = temp.Dwelling.Owner;
-                    bottom_map[w, h].dwellingIsHere.UnitType = temp.Dwelling.UnitType;
-                    bottom_map[w, h].dwellingIsHere.AvailableToBuyCount = temp.Dwelling.AvailableToBuyCount;
+                    //bottom_map[w, h].dwellingIsHere.Owner = temp.Dwelling.Owner;
+                    //bottom_map[w, h].dwellingIsHere.UnitType = temp.Dwelling.UnitType;
+                    //bottom_map[w, h].dwellingIsHere.AvailableToBuyCount = temp.Dwelling.AvailableToBuyCount;
+                    dwellings.Add(new DwellingsPlaces(new Place(w, h), temp.Dwelling));
                 }
 
             }
         }
+        
 
         // Начальное заполнение карт Bottom и Top
         public void InitMap()
         {
+            //localMapObjects = new List<MapObjectData>(map.Objects); //создаём локальную копию
+
             for (int h = 0; h < height; h++)
             {
                 for (int w = 0; w < widht; w++)
@@ -175,6 +211,11 @@ namespace Homm.Client
         // обновление карты
         public void UpdateBottom()
         {
+            //var temp = localMapObjects.Except(map.Objects); //
+
+
+
+
             // Ищем позицию героя, и на определенном радиусе от него, перезаписываем карту
             for (int w = 0; w < widht; w++)
             {
