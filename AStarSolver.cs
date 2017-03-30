@@ -11,17 +11,95 @@ using System.Diagnostics;
 
 namespace Homm.Client
 {
+    // Структура Place - координаты
+    public struct Place
+    {
+        // Поля-координаты
+        public int X;
+        public int Y;
+
+        // Конструктор
+        public Place(int ax, int ay)
+        {
+            X = ax;
+            Y = ay;
+        }
+
+        public static explicit operator Place(LocationInfo v) //явное приведение типа
+        {
+            return new Place(v.X, v.Y);
+        }
+    }
+
+    // Структура звена
+    public struct Chain
+    {
+        // Поля координат
+        public int X;
+        public int Y;
+        public string path; // Поле, запоминающее путь перемещения объекта
+        public double travel_time; // Поле, считающее время пути path
+
+        // Конструктор
+        public Chain(int X, int Y)
+        {
+            this.X = X;
+            this.Y = Y;
+            this.path = "";
+            this.travel_time = Double.MaxValue;
+        }
+        public Chain(Place place) : this(place.X, place.Y) { } //Перегруженный конструктор
+
+        // Конструктор, заполняющий время и путь
+        public Chain(Place place, string path, double travel_time) : this(place)
+        {
+            this.path = path;
+            this.travel_time = travel_time;
+        }
+
+        // Конструктор, заполняющий путь
+        public Chain(int X, int Y, string path) : this(X, Y)
+        {
+            this.path = path;
+        }
+        public Chain(Place place, string path) : this(place.X, place.Y, path) { } // Перегруженный Конструктор, заполняющий путь
+
+        // конструктор, заполняющий время
+        public Chain(int X, int Y, double travel_time) : this(X, Y)
+        {
+            this.travel_time = travel_time;
+        }
+        public Chain(Place place, double travel_time) : this(place.X, place.Y, travel_time) { } // Перегруженный Конструктор, заполняющий время
+
+        // Переопределение оператора "+"
+        public static Place operator +(Chain current, Chain shift)
+        {
+            //В зависимости от координаты Х шестигранника current меняется алгоритм перемещения по диагоналям
+            //Если мы совершаем движение со сдвигом по координате Х (в сторону)
+            if (shift.X != 0) // X==1 || X==-1
+            {
+                //в зависимости от текущего положения
+                //не изменяем координату Y, если Х был чётный, а движение совершалось в сторону и вниз
+                //или если X был не чётный, а движение совершалось в сторону и вверх
+                if (current.X % 2 == 0 && shift.Y == 1 || current.X % 2 == 1 && shift.Y == -1)
+                {
+                    return new Place(current.X + shift.X, current.Y);
+                }
+            }
+            // возвращаем координатную сумму
+            return new Place(current.X + shift.X, current.Y + shift.Y);
+        }
+    }
+
     class AStarSolver
     {
         // Список звеньев передвижения
         private List<Chain> directions;
-        //private MapData map;
-        // Карта игрового мира
+        // Карта недвижимых частей игрового мира
         private Bottom[,] bottom_map;
         // конструктор, инициализирующий карту и заполняющий список звеньев передвижения
-        public AStarSolver(/*MapData map */Bottom[,] bottom_map)
+        public AStarSolver(Bottom[,] bottom_map)
         {
-            //this.map = map;
             this.bottom_map = bottom_map;
             directions = new List<Chain>();
             directions.Add(new Chain(-1, -1, ((int)Direction.LeftUp).ToString())); // движение вверх-влево
@@ -30,66 +108,6 @@ namespace Homm.Client
             directions.Add(new Chain( 1,  1, ((int)Direction.RightDown).ToString())); // движение вниз-вправо
             directions.Add(new Chain( 0, -1, ((int)Direction.Up).ToString())); // движение вверх
             directions.Add(new Chain( 0,  1, ((int)Direction.Down).ToString())); // движение вниз
-        }
-
-        // Структура звена
-        struct Chain
-        {
-            // Поля координат
-            public int X;
-            public int Y;
-            public string path; // Поле, запоминающее путь перемещения объекта
-            public double travel_time; // Поле, считающее время пути path
-
-            // Конструктор
-            public Chain(int X, int Y)
-            {
-                this.X = X;
-                this.Y = Y;
-                this.path = "";
-                this.travel_time = Double.MaxValue;
-            }
-            public Chain(Place place) : this(place.X, place.Y) { } //Перегруженный конструктор
-
-            // Конструктор, заполняющий время и путь
-            public Chain(Place place, string path, double travel_time) : this(place)
-            {
-                this.path = path;
-                this.travel_time = travel_time;
-            }
-
-            // Конструктор, заполняющий путь
-            public Chain(int X, int Y, string path) : this(X, Y)
-            {
-                this.path = path;
-            }
-            public Chain(Place place, string path) : this(place.X, place.Y, path) { } // Перегруженный Конструктор, заполняющий путь
-
-            // конструктор, заполняющий время
-            public Chain(int X, int Y, double travel_time) : this(X, Y)
-            {
-                this.travel_time = travel_time;
-            }
-            public Chain(Place place, double travel_time) : this(place.X, place.Y, travel_time) { } // Перегруженный Конструктор, заполняющий время
-
-            // Переопределение оператора "+"
-            public static Place operator +(Chain current, Chain shift)
-            {
-                //В зависимости от координаты Х шестигранника current меняется алгоритм перемещения по диагоналям
-                //Если мы совершаем движение со сдвигом по координате Х (в сторону)
-                if (shift.X !=0) // X==1 || X==-1
-                {
-                    //в зависимости от текущего положения
-                    //не изменяем координату Y, если Х был чётный, а движение совершалось в сторону и вниз
-                    //или если X был не чётный, а движение совершалось в сторону и вверх
-                    if (current.X % 2 == 0 && shift.Y == 1 || current.X % 2 == 1 && shift.Y == -1)
-                    {
-                        return new Place(current.X + shift.X, current.Y);
-                    }
-                }
-                // возвращаем координатную сумму
-                return new Place(current.X + shift.X, current.Y + shift.Y);
-            }
         }
 
         // Метод GoTO возвращающий массив передвижений для 

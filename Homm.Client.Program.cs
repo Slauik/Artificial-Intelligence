@@ -8,26 +8,6 @@ using System.IO;
 
 namespace Homm.Client
 {
-    // Структура Place - координаты
-    public struct Place
-    {
-        // Поля-координаты
-        public int X;
-        public int Y;
-
-        // Конструктор
-        public Place(int ax, int ay)
-        {
-            X = ax;
-            Y = ay;
-        }
-
-        public static explicit operator Place(LocationInfo v) //явное приведение типа
-        {
-            return new Place(v.X, v.Y);
-        }
-    }
-
     class Program
     {
         // Вставьте сюда свой личный CvarcTag для того, чтобы учавствовать в онлайн соревнованиях.
@@ -40,18 +20,8 @@ namespace Homm.Client
         {
             Connect(args); //устанавливаем подключение к серверу
 
-
-            AI ai = new AI(sensorData);
-            AStarSolver pathSolver = new AStarSolver(/*sensorData.Map*/ai.myVision.bottom_map);
-            var path = pathSolver.GoTo(sensorData.Location, new LocationInfo(1, 1));
-            foreach (var e in path) sensorData = client.Move(e);
-
-            path = pathSolver.GoTo(sensorData.Location, new LocationInfo(0, 0));
-            foreach (var e in path) sensorData = client.Move(e);
-
-            sensorData = client.HireUnits(1);
-
-            // Перемещаемся по полученному пути
+            AI ai = new AI(sensorData, client);
+            ai.Start();
 
             client.Exit();
         }
@@ -95,23 +65,6 @@ namespace Homm.Client
         //Вывод информации о соседних с персонажем ячейках
         static void Print(HommSensorData data)
         {
-            //infoSW.WriteLine($"{step}");
-            //infoSW.WriteLine($"Герой мертв? {data.IsDead.ToString() }");
-            //infoSW.WriteLine($"Положение героя: {data.Location.ToString()}");
-            //GetFuckingMap(data.Map);
-            //infoSW.WriteLine($"Моя армия: {data.MyArmy.Select(z => z.Value + " " + z.Key).Aggregate((a, b) => a + ", " + b)}");
-            //infoSW.WriteLine($"Сторона возрождения: {data.MyRespawnSide.ToString() }");
-            //infoSW.WriteLine($"мои ресурсы: {data.MyTreasury.Select(z => z.Value + " " + z.Key).Aggregate((a, b) => a + ", " + b)}");
-            //infoSW.WriteLine("---------------------------------");
-
-            //mapSW.WriteLine($"{step}");
-            //GetMap(data.Map);
-
-
-            //step++;
-
-            Console.WriteLine("---------------------------------");
-
             Console.WriteLine($"You are here: ({data.Location.X},{data.Location.Y})");
 
             Console.WriteLine($"You have {data.MyTreasury.Select(z => z.Value + " " + z.Key).Aggregate((a, b) => a + ", " + b)}");
@@ -135,7 +88,6 @@ namespace Homm.Client
 
             Console.Write("Q: ");
             Console.WriteLine(GetObjectAt(data.Map, location.NeighborAt(Direction.LeftUp)));
-            //Console.ReadLine();
         }
 
         //Получить информацию о ячейке
@@ -144,7 +96,6 @@ namespace Homm.Client
             if (location.X < 0 || location.X >= map.Width || location.Y < 0 || location.Y >= map.Height)
                 return "Outside";
 
-            //string temp = "";
             return map.Objects.
                 Where(x => x.Location.X == location.X && x.Location.Y == location.Y)
                 .FirstOrDefault()?.ToString() ?? "Nothing";
