@@ -16,11 +16,16 @@ namespace Homm.Client
         private static HommClient client;
         private static HommSensorData sensorData;
 
+        public static HommClient MyProperty { get {return client;}}
+
         public static void Main(string[] args)
         {
             Connect(args); //устанавливаем подключение к серверу
 
             AI ai = new AI(sensorData, client);
+            // Сообщаем с событием OnSensorDataReceived метод Update класса Vision
+            
+            client.OnSensorDataReceived += ai.myVision.Update;
             ai.Start();
 
             client.Exit();
@@ -36,7 +41,7 @@ namespace Homm.Client
 
             client = new HommClient();
 
-            client.OnSensorDataReceived += Print;
+            //client.OnSensorDataReceived += Print;
             client.OnInfo += OnInfo;
 
             sensorData = client.Configurate(
@@ -53,15 +58,16 @@ namespace Homm.Client
 
                 spectacularView: true,      // Вы можете отключить графон, заменив параметр на false.
 
-                debugMap: false,            // Вы можете использовать отладочную простую карту, чтобы лучше понять, как устроен игоровой мир.
+                debugMap: true,            // Вы можете использовать отладочную простую карту, чтобы лучше понять, как устроен игоровой мир.
 
-                level: HommLevel.Level2,    // Здесь можно выбрать уровень. На уровне два на карте присутствует оппонент.
+                level: HommLevel.Level1,    // Здесь можно выбрать уровень. На уровне два на карте присутствует оппонент.
 
                 isOnLeftSide: true          // Вы можете указать, с какой стороны будет находиться замок героя при игре на втором уровне.
                                             // Помните, что на сервере выбор стороны осуществляется случайным образом, поэтому ваш код
                                             // должен работать одинаково хорошо в обоих случаях.
             );
         }
+
         //Вывод информации о соседних с персонажем ячейках
         static void Print(HommSensorData data)
         {
@@ -88,8 +94,10 @@ namespace Homm.Client
 
             Console.Write("Q: ");
             Console.WriteLine(GetObjectAt(data.Map, location.NeighborAt(Direction.LeftUp)));
-        }
 
+            Console.ReadKey();
+        }
+        
         //Получить информацию о ячейке
         static string GetObjectAt(MapData map, Location location)
         {
