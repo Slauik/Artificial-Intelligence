@@ -55,3 +55,6 @@ C:\Projects\GitProjects\ArtificalIntelligence\cvark\homm.client\obj\Debug\Homm.C
 C:\Users\Слава\Desktop\cvark\homm.client\bin\Debug\Homm.Client.exe.config
 C:\Users\Слава\Desktop\cvark\homm.client\obj\Debug\Homm.Client.exe
 C:\Users\Слава\Desktop\cvark\homm.client\obj\Debug\Homm.Client.pdb
+C:\Projects\GitProjects\ArtificalIntelligence\homm.client\bin\Debug\Homm.Client.exe.config
+C:\Projects\GitProjects\ArtificalIntelligence\homm.client\obj\Debug\Homm.Client.exe
+C:\Projects\GitProjects\ArtificalIntelligence\homm.client\obj\Debug\Homm.Client.pdb
