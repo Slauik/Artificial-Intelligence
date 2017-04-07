@@ -51,41 +51,52 @@ namespace Homm.Client
                     client.HireUnits(hireUnits);
                 }
 
+                Cell entity = new Cell();
+
+                entity = FindEnemy();
+                if (entity != null)
+                {
+                    if (entity.X != -1 && entity.Y != -1)
+                    {
+                        Chain heh = AStarSolver((Cell)sensorData.Location, entity);
+                        client.Move(StringToDirection(heh.path)[0]);
+                        continue;
+                    }
+                }
+
                 // Список ближайших объектов
-                List<Cell> nearestStuff = new List<Cell>();
+                Dictionary<Cell, string> nearestStuff = new Dictionary<Cell, string>();
 
                 // Если у нас нет золотой шахты, но есть неохраняемая шахта, добавляем ее в список на проверку
-
                 // Ищем шахту
-                Cell entity = new Cell();
                 entity = FindMine();
                 if (entity != null)
                 {
                     if (entity.X != -1 && entity.Y != -1)
                     {
-                        nearestStuff.Add(entity);
+                        nearestStuff.Add(entity, "Mine");
                     }
                 }
 
                 // Ищем таверну
-                entity = FindDwelling();
-                
+                entity = FindSecurityDwelling();
+
                 if (entity != null)
                 {
                     if (entity.X != -1 && entity.Y != -1)
                     {
-                        nearestStuff.Add(entity);
+                        nearestStuff.Add(entity, "Dwelling");
                     }
                 }
 
                 // Ищем ресурс
                 entity = FindResource();
-                
+
                 if (entity != null)
                 {
                     if (entity.X != -1 && entity.Y != -1)
                     {
-                        nearestStuff.Add(entity);
+                        nearestStuff.Add(entity, "Resource");
                     }
                 }
 
@@ -96,15 +107,50 @@ namespace Homm.Client
                 // Если список не пустой
                 if (nearestStuff.Count() != 0)
                 {
-                    var heh = FindNearest(nearestStuff);
+                    Chain heh = FindNearest(nearestStuff.Keys.ToList());
                     client.Move(StringToDirection(heh.path)[0]);
                 }
-                // Иначе, патрулируем
-                else
-                {
-                    //Scouting();
-                }
             }
+        }
+
+        // Проверка видим ли мы врага
+        private Cell FindEnemy()
+        {
+            var heroes = sensorData.Map.Objects.Where(o => o.Hero != null).Select(o => o);
+            MapObjectData enemy = null;
+
+            if (heroes.Count() == 1)
+            {
+                return new Cell();
+            }
+            enemy = heroes.Where(o => o.Hero.Name != sensorData.MyRespawnSide).
+                Select(o => o).FirstOrDefault();
+
+            // Если врага нет, переходим к следующему действию
+            if (enemy == null)
+            {
+                return new Cell();
+            }
+
+            // Оцениваем исход боя в случае нападения на врага
+            var attack = Combat.Resolve(new ArmiesPair(sensorData.MyArmy, enemy.Hero.Army));
+
+            // Если мы проигрываем в нападении
+            if (attack.IsDefenderWin)
+            {
+                FindSecurityDwelling();
+            }
+
+            // Оцениваем исход боя в случае нападения врага
+            var defend = Combat.Resolve(new ArmiesPair(enemy.Hero.Army, sensorData.MyArmy));
+            // Если мы выигрываем в обороне
+            if (defend.IsDefenderWin)
+            {
+                // Возвращаем координату врага
+                return (Cell)enemy.Location;
+            }
+
+            return FindSecurityDwelling();
         }
 
         // Нанимаем юнита в таверне по посылаемым координатам
@@ -168,7 +214,7 @@ namespace Homm.Client
             // Получаем все видимые ресурсы
             var resInRange = sensorData.Map.Objects.
                 Where(res => res.ResourcePile != null).
-                Select(res => (Cell)res.Location);
+                Select(res => (Cell)res.Location).ToList();
             // Находим самый ближайший к нам
             Chain nearRes = FindNearest(resInRange);
             // Если такой ресурс был найден, делаем шаг по направлению к нему
@@ -176,6 +222,90 @@ namespace Homm.Client
             {
                 return nearRes;
             }
+            return new Cell();
+        }
+
+        // Метод нахождения таверны
+        private Cell FindSecurityDwelling()
+        {
+            // Получаем список наших сокровищ
+            Dictionary<Resource, int> localTreasure = sensorData.MyTreasury.
+                Select(t => new { t.Key, t.Value }).
+                ToDictionary(t => t.Key, t => t.Value);
+
+            // Если есть золото
+            if (localTreasure[0] > 0)
+            {
+                var heroes = sensorData.Map.Objects.Where(o => o.Hero != null).Select(o => o);
+                MapObjectData enemy = null;
+
+                if (heroes.Count() != 1)
+                {
+                    enemy = heroes.Where(o => !o.Hero.Name.Equals(sensorData.MyRespawnSide)).Select(o => o).FirstOrDefault();
+                }
+
+                // Список ближайших таверн
+                List<Cell> nearDwellings = new List<Cell>();
+                // По каждому ресурсу, имеющимуся у нас смотрим
+                foreach (var item in localTreasure)
+                {
+                    // Если данного типа ресурса нет, смотрим следующий
+                    if (item.Value == 0)
+                    {
+                        continue;
+                    }
+                    // Для каждого типа ресурса делаем соответствие с типом нанимаего 
+                    // юнита
+                    int proverochka = -1;
+                    switch (item.Key)
+                    {
+                        case Resource.Glass: // Если ресурс стекло - то ищем лучников
+                            proverochka = 1;
+                            break;
+                        case Resource.Iron: // Железо - пехота
+                            proverochka = 0;
+                            break;
+                        case Resource.Ebony: // Эбонит - конница
+                            proverochka = 2;
+                            break;
+                        case Resource.Gold: // Золото - ополчение
+                        default:
+                            proverochka = 3;
+                            break;
+                    }
+
+                    // Ищем все таверны послыаемого типа юнитов
+                    var dwInMind = myMap.dwellings.Where(count => count.dwellingIsHere.AvailableToBuyCount > 0).
+                        Where(t => (int)t.dwellingIsHere.UnitType == proverochka).
+                        Select(cord => new Cell(cord.X, cord.Y)).ToList();
+
+                    // Добавляем ближайшую таверну данного типа в список
+                    if (dwInMind.Count() != 0)
+                    {
+                        while (dwInMind.Count > 0)
+                        {
+
+                            var securityDw = FindNearest(dwInMind);
+                            //если я бегу к таверне дольше врага
+                            if (enemy != null && securityDw.travel_cost > AStarSolver((Cell)enemy.Location, new Cell(securityDw.X, securityDw.Y)).travel_cost)
+                            {
+                                dwInMind.Remove(securityDw);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        nearDwellings.Add(FindNearest(dwInMind));
+                    }
+                }
+                // Если была найдена хоть одна таверна, возвращаем координату ближайшей
+                if (nearDwellings != null)
+                {
+                    return FindNearest(nearDwellings);
+                }
+            }
+            // Если ничего не было найдено, возвращаем пустую ячейку
             return new Cell();
         }
 
@@ -191,7 +321,7 @@ namespace Homm.Client
             if (localTreasure[0] > 0)
             {
                 // Список ближайших таверн
-                List<Chain> nearDwellings = new List<Chain>();
+                List<Cell> nearDwellings = new List<Cell>();
                 // По каждому ресурсу, имеющимуся у нас смотрим
                 foreach (var item in localTreasure)
                 {
@@ -229,7 +359,7 @@ namespace Homm.Client
 
                     var second = first.Where(count => count.dwellingIsHere.AvailableToBuyCount > 0).Select(dw => dw);
 
-                    var dwInMind = second.Where(t => (int)t.dwellingIsHere.UnitType == proverochka).Select(cord => new Cell(cord.X, cord.Y));
+                    var dwInMind = second.Where(t => (int)t.dwellingIsHere.UnitType == proverochka).Select(cord => new Cell(cord.X, cord.Y)).ToList();
 
 
                     // Добавляем ближайшую таверну данного типа в список
@@ -266,27 +396,26 @@ namespace Homm.Client
             if (myMap.mines.Where(mine => mine.mineIsHere.Resource == Resource.Gold).Where(mine => mine.mineIsHere.Owner == sensorData.MyRespawnSide).Select(mine => mine).Count() != 0)
             {
                 // Выбираем ближайшую шахту любого типа, которую можем захватить
-                nearMines = FindNearest(notMyMines.Select(cord => new Cell(cord.X, cord.Y)));
+                nearMines = FindNearest(notMyMines.Select(cord => new Cell(cord.X, cord.Y)).ToList());
             }
             // Иначе, если у нас нет ниодной золотой шахты
             else
             {
                 // Из списка вражеских шахт находим все золотые
-                var notMyGoldMines = notMyMines.Where(mine => mine.mineIsHere.Resource == Resource.Gold).Select(cord => new Cell(cord.X, cord.Y));
+                var notMyGoldMines = notMyMines.Where(mine => mine.mineIsHere.Resource == Resource.Gold).Select(cord => new Cell(cord.X, cord.Y)).ToList();
                 // Если у врага есть такая или несколько таких
                 if (notMyGoldMines != null)
                 {
                     // Выбираем ближайшую золотую шахту, к которой можем пройти
                     nearMines = FindNearest(notMyGoldMines);
                 }
-                
-            }
 
+            }
             return nearMines;
         }
 
         // Метод поиска ближайшего из списка посылаемых координат
-        private Chain FindNearest(IEnumerable<Cell> objects)
+        private Chain FindNearest(List<Cell> objects)
         {
             Chain min = new Chain();
             min.G = double.MaxValue;
