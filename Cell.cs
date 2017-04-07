@@ -106,7 +106,7 @@ namespace Homm.Client
         public double travel_cost; // Поле, считающее время пути path
         public double F; // Оценка F = H + G
         public double H; // Оценка H = (finish.x - start.x) + (finish.y - start.y)
-        public double G; // Оценка G
+        public double G; // Оценка G = стоймость пути в данной точке
 
         // Конструкторы
         public Chain() : base()

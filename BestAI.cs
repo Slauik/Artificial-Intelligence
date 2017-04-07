@@ -17,6 +17,8 @@ namespace Homm.Client
         public HommClient client;
         public MyMap myMap; // Копия карты
 
+        private bool iHaveGoldMine = false;
+
         // Массив всевозможных передвижений
         public Chain[] directions = new Chain[]
         {
@@ -488,9 +490,19 @@ namespace Homm.Client
                     }
                     // Если на этой вершине находится враг, которого мы не в силах одолеть,
                     // игнориуем ее
-                    if (InDanger(shift, tempArmy))
+
+                    int losses = InDanger(shift, tempArmy);
+
+                    // Если мы проиграли бой, то игнорируем эту клетку
+                    if (losses == -1)
                     {
                         continue;
+                    }
+                    // Иначе, наши потери влияют на оценку пути
+                    else if (losses != 0)
+                    {
+                        shift.G += 2;
+                        shift.F += 0.1* losses;
                     }
 
                     // Записываем путь сдвига
@@ -532,7 +544,7 @@ namespace Homm.Client
                         shift.G += myMap.cells[shift.X, shift.Y].travel_cost;
 
                         // Вычисляем оценку F
-                        shift.F = shift.H + shift.G;
+                        shift.F += shift.H + shift.G;
 
                         // Добавляем эту вершину в открытый список 
                         opened_list.Add(shift);
@@ -567,14 +579,15 @@ namespace Homm.Client
         }
 
         // игнорируем эту клетку
-        private bool InDanger(Chain shift, Dictionary<UnitType, int> tempArmy)
+        private int InDanger(Chain shift, Dictionary<UnitType, int> tempArmy)
         {
-            var curOb = myMap.GetCurrentCell(shift.X, shift.Y); //= sensorData.Map.Objects.Where(coord => (Cell)coord.Location == shift).Select(o => o);
+            var curOb = myMap.GetCurrentCell(shift.X, shift.Y);
             // Если текущий объект пустой
             if (curOb == null)
             {
-                return false;
+                return 0;
             }
+
             Dictionary<UnitType, int> enemyArmy = new Dictionary<UnitType, int>();
             // Если там есть нейтралы
             if (curOb.NeutralArmy != null)
@@ -594,7 +607,7 @@ namespace Homm.Client
             }
             else
             {
-                return false;
+                return 0;
             }
             // Проводим бой
             var fight = Combat.Resolve(new ArmiesPair(tempArmy, enemyArmy));
@@ -603,13 +616,32 @@ namespace Homm.Client
             if (fight.IsAttackerWin)
             {
                 // Записываем наши остатки армии в tempArmy и считаем, что можем пройти по этой клетке
+
+                // Потери в бою
+                int losses = 0;
+
+                // Для каждого типа юнита записываем его потери
+                foreach (var item in tempArmy)
+                {
+                    // Смотрим число юнитов данного типа до боя
+                    var beforeBattle = tempArmy.Where(o => o.Key == item.Key).Select(o => o.Value).FirstOrDefault();
+                    // Смотрим число юнитов данного типа после боя
+                    var afterBattle = fight.AttackingArmy.Where(o => o.Key == item.Key).Select(o => o.Value).FirstOrDefault();
+                    // Записываем потери данного типа
+                    losses += beforeBattle - afterBattle;
+                }
+
+
+                //var delta = tempArmy - fight.AttackingArmy;
+
                 tempArmy = fight.AttackingArmy;
-                return false;
+
+                return losses;
             }
             // Если выйграли нейтралы, игнорируем клетку
             else
             {
-                return true;
+                return -1;
             }
         }
 
