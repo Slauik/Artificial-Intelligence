@@ -17,8 +17,6 @@ namespace Homm.Client
         public HommClient client;
         public MyMap myMap; // Копия карты
 
-        private bool iHaveGoldMine = false;
-
         // Массив всевозможных передвижений
         public Chain[] directions = new Chain[]
         {
@@ -44,73 +42,76 @@ namespace Homm.Client
         {
             while (true)
             {
-                // Находимся ли мы в таверне и сколько юнитов можем купить
-                int hireUnits = HireUnit(sensorData.Location);
-                // Если можем нанять хоть кого-нибудь в таверне
-                if (hireUnits != 0)
+                try
                 {
-                    // Нанимаем
-                    client.HireUnits(hireUnits);
-                }
-
-                Cell entity = new Cell();
-
-                entity = FindEnemy();
-                if (entity != null)
-                {
-                    if (entity.X != -1 && entity.Y != -1)
+                    // Находимся ли мы в таверне и сколько юнитов можем купить
+                    int hireUnits = HireUnit(sensorData.Location);
+                    // Если можем нанять хоть кого-нибудь в таверне
+                    if (hireUnits != 0)
                     {
-                        Chain heh = AStarSolver((Cell)sensorData.Location, entity);
+                        // Нанимаем
+                        client.HireUnits(hireUnits);
+                    }
+
+                    Cell entity = new Cell();
+
+                    entity = FindEnemy();
+                    if (entity != null)
+                    {
+                        if (entity.X != -1 && entity.Y != -1)
+                        {
+                            Chain heh = AStarSolver((Cell)sensorData.Location, entity);
+                            client.Move(StringToDirection(heh.path)[0]);
+                            continue;
+                        }
+                    }
+
+                    // Список ближайших объектов
+                    Dictionary<Cell, string> nearestStuff = new Dictionary<Cell, string>();
+
+                    // Если у нас нет золотой шахты, но есть неохраняемая шахта, добавляем ее в список на проверку
+                    // Ищем шахту
+                    entity = FindMine();
+                    if (entity != null)
+                    {
+                        if (entity.X != -1 && entity.Y != -1)
+                        {
+                            nearestStuff.Add(entity, "Mine");
+                        }
+                    }
+
+                    // Ищем таверну
+                    entity = FindSecurityDwelling();
+
+                    if (entity != null)
+                    {
+                        if (entity.X != -1 && entity.Y != -1)
+                        {
+                            nearestStuff.Add(entity, "Dwelling");
+                        }
+                    }
+
+                    // Ищем ресурс
+                    entity = FindResource();
+
+                    if (entity != null)
+                    {
+                        if (entity.X != -1 && entity.Y != -1)
+                        {
+                            nearestStuff.Add(entity, "Resource");
+                        }
+                    }
+                    // Если список не пустой
+                    if (nearestStuff.Count() != 0)
+                    {
+                        Chain heh = FindNearest(nearestStuff.Keys.ToList());
                         client.Move(StringToDirection(heh.path)[0]);
-                        continue;
                     }
-                }
-
-                // Список ближайших объектов
-                Dictionary<Cell, string> nearestStuff = new Dictionary<Cell, string>();
-
-                // Если у нас нет золотой шахты, но есть неохраняемая шахта, добавляем ее в список на проверку
-                // Ищем шахту
-                entity = FindMine();
-                if (entity != null)
-                {
-                    if (entity.X != -1 && entity.Y != -1)
-                    {
-                        nearestStuff.Add(entity, "Mine");
-                    }
-                }
-
-                // Ищем таверну
-                entity = FindSecurityDwelling();
-
-                if (entity != null)
-                {
-                    if (entity.X != -1 && entity.Y != -1)
-                    {
-                        nearestStuff.Add(entity, "Dwelling");
-                    }
-                }
-
-                // Ищем ресурс
-                entity = FindResource();
-
-                if (entity != null)
-                {
-                    if (entity.X != -1 && entity.Y != -1)
-                    {
-                        nearestStuff.Add(entity, "Resource");
-                    }
-                }
-
-                if (sensorData.Location.X == 3 && sensorData.Location.Y == 4)
-                {
 
                 }
-                // Если список не пустой
-                if (nearestStuff.Count() != 0)
+                catch (Exception)
                 {
-                    Chain heh = FindNearest(nearestStuff.Keys.ToList());
-                    client.Move(StringToDirection(heh.path)[0]);
+                    continue;
                 }
             }
         }
@@ -265,12 +266,15 @@ namespace Homm.Client
             // Если есть золото
             if (localTreasure[0] > 0)
             {
-                var heroes = sensorData.Map.Objects.Where(o => o.Hero != null).Select(o => o);
+                var heroes = sensorData.Map.Objects.
+                    Where(o => o.Hero != null).Select(o => o);
                 MapObjectData enemy = null;
 
                 if (heroes.Count() != 1)
                 {
-                    enemy = heroes.Where(o => !o.Hero.Name.Equals(sensorData.MyRespawnSide)).Select(o => o).FirstOrDefault();
+                    enemy = heroes.Where(o => !o.Hero.Name.
+                    Equals(sensorData.MyRespawnSide)).
+                    Select(o => o).FirstOrDefault();
                 }
 
                 // Список ближайших таверн
@@ -311,6 +315,18 @@ namespace Homm.Client
                     // Добавляем ближайшую таверну данного типа в список
                     if (dwInMind.Count() != 0)
                     {
+                        //если в данной таверне мы не можем нанять ни одного юнита, 
+                        //удаляем её из списка таверн, подлежащих проверке
+                        //грёбанные рыцари!!!
+                        for (int i = 0; i < dwInMind.Count(); i++)
+                        {
+                            if (HireUnit(new LocationInfo(dwInMind[i].X, dwInMind[i].Y))== 0)
+                            {
+                                dwInMind.RemoveAt(i);
+                                i--;
+                            }
+                        }
+
                         while (dwInMind.Count > 0)
                         {
 
@@ -564,8 +580,12 @@ namespace Homm.Client
                     // Иначе, если нет в открытом списке
                     else
                     {
-                        // Вычисляем оценку H 
-                        shift.H = (Math.Abs(finish.X - shift.X) + Math.Abs(finish.Y - shift.Y));
+                        // Вычисляем оценку H (для шестигранников)
+                        if (finish.X == shift.X || finish.Y == shift.Y)
+                        {
+                            shift.H += 0.3;
+                        }
+                        shift.H += Math.Sqrt(Math.Pow((finish.X - shift.X), 2) + Math.Pow((finish.Y - shift.Y), 2));
 
                         // Вычисляем оценку G
                         shift.G += myMap.cells[shift.X, shift.Y].travel_cost;
