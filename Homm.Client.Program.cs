@@ -14,7 +14,7 @@ namespace Homm.Client
         // Вставьте сюда свой личный CvarcTag для того, чтобы учавствовать в онлайн соревнованиях.
         //Димин  400f8d33-14ac-48d0-aafc-391b819038e4
         //Славин a9da6916-83fd-470e-838c-d8b4144ba434
-        public static readonly Guid CvarcTag = Guid.Parse("400f8d33-14ac-48d0-aafc-391b819038e4");
+        public static readonly Guid CvarcTag = Guid.Parse("a9da6916-83fd-470e-838c-d8b4144ba434");
 
         private static HommSensorData sensorData;
         private static HommClient client;
@@ -31,7 +31,6 @@ namespace Homm.Client
             client.OnInfo += OnInfo;
             ai.ThinkingWhatToDoNext();
             client.Exit();
-
         }
 
         private static void Connect(string[] args)
@@ -76,6 +75,8 @@ namespace Homm.Client
             Console.WriteLine($"You are here: ({data.Location.X},{data.Location.Y})");
 
             Console.WriteLine($"You have {data.MyTreasury.Select(z => z.Value + " " + z.Key).Aggregate((a, b) => a + ", " + b)}");
+
+            Console.WriteLine($"My army: {data.MyArmy.Select(dct => dct.Key + " " + dct.Value).Aggregate((a, b) => a + ", " + b)}");
 
             var location = data.Location.ToLocation();
 

@@ -40,10 +40,15 @@ namespace Homm.Client
         // Попытка реализовать метод ThinkingWhatToDoNext блок-схемы
         public void ThinkingWhatToDoNext()
         {
+
             while (true)
             {
                 try
                 {
+                    if (sensorData.IsDead)
+                    {
+                        client.Wait(2);
+                    }
                     // Находимся ли мы в таверне и сколько юнитов можем купить
                     int hireUnits = HireUnit(sensorData.Location);
                     // Если можем нанять хоть кого-нибудь в таверне
@@ -107,13 +112,15 @@ namespace Homm.Client
                         Chain heh = FindNearest(nearestStuff.Keys.ToList());
                         client.Move(StringToDirection(heh.path)[0]);
                     }
-
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                     continue;
                 }
+
             }
+
         }
 
         // Проверка видим ли мы врага
@@ -142,7 +149,7 @@ namespace Homm.Client
                 enemyArmy += item.Value;
             }
 
-            if ((Cell)enemy.Location == new Cell(0,0) && enemyArmy == 0)
+            if ((Cell)enemy.Location == new Cell(0, 0) && enemyArmy == 0)
             {
                 return new Cell();
             }
@@ -320,7 +327,7 @@ namespace Homm.Client
                         //грёбанные рыцари!!!
                         for (int i = 0; i < dwInMind.Count(); i++)
                         {
-                            if (HireUnit(new LocationInfo(dwInMind[i].X, dwInMind[i].Y))== 0)
+                            if (HireUnit(new LocationInfo(dwInMind[i].X, dwInMind[i].Y)) == 0)
                             {
                                 dwInMind.RemoveAt(i);
                                 i--;
@@ -332,9 +339,13 @@ namespace Homm.Client
 
                             var securityDw = FindNearest(dwInMind);
                             //если я бегу к таверне дольше врага
-                            if (enemy != null && securityDw.travel_cost > AStarSolver((Cell)enemy.Location, new Cell(securityDw.X, securityDw.Y)).travel_cost)
+                            if (enemy != null)
                             {
-                                dwInMind.Remove(securityDw);
+                                var enemyTrsvelCost = AStarSolver((Cell)enemy.Location, new Cell(securityDw.X, securityDw.Y)).travel_cost;
+                                if (securityDw.travel_cost > enemyTrsvelCost)
+                                {
+                                    dwInMind.Remove(securityDw);
+                                }
                             }
                             else
                             {
@@ -545,7 +556,7 @@ namespace Homm.Client
                     else if (losses != 0)
                     {
                         shift.G += 2;
-                        shift.F += 0.1* losses;
+                        shift.F += 0.1 * losses;
                     }
 
                     // Записываем путь сдвига
