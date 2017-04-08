@@ -36,8 +36,8 @@ namespace Homm.Client
         private static void Connect(string[] args)
         {
             if (args.Length == 0)
-                args = new[] { "homm.ulearn.me", "18700" };
-                //args = new[] { "127.0.0.1", "18700" };
+                //args = new[] { "homm.ulearn.me", "18700" };
+            args = new[] { "127.0.0.1", "18700" };
             var ip = args[0];
             var port = int.Parse(args[1]);
 
@@ -46,9 +46,9 @@ namespace Homm.Client
             sensorData = client.Configurate(
               ip, port, CvarcTag,
 
-              timeLimit: 90,              // Продолжительность матча в секундах (исключая время, которое "думает" ваша программа). 
+              timeLimit: 500,              // Продолжительность матча в секундах (исключая время, которое "думает" ваша программа). 
 
-              operationalTimeLimit: 20,   // Суммарное время в секундах, которое разрешается "думать" вашей программе. 
+              operationalTimeLimit: 500,   // Суммарное время в секундах, которое разрешается "думать" вашей программе. 
                                           // Вы можете увеличить это время для отладки, чтобы ваш клиент не был отключен, 
                                           // пока вы разглядываете программу в режиме дебаггинга.
 

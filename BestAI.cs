@@ -40,9 +40,11 @@ namespace Homm.Client
         // Попытка реализовать метод ThinkingWhatToDoNext блок-схемы
         public void ThinkingWhatToDoNext()
         {
-
+            int step = 0;
             while (true)
             {
+                step++;
+                Console.WriteLine($"\nStep №:{step}\n");
                 try
                 {
                     if (sensorData.IsDead)
@@ -112,14 +114,13 @@ namespace Homm.Client
                         Chain heh = FindNearest(nearestStuff.Keys.ToList());
                         client.Move(StringToDirection(heh.path)[0]);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    continue;
-                }
-
             }
+                catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+        }
 
         }
 
@@ -333,19 +334,33 @@ namespace Homm.Client
                                 i--;
                             }
                         }
-
+                        int count = 0;
                         while (dwInMind.Count > 0)
                         {
-
+                            count++;
+                            if (count > 15)
+                            {
+                                return new Cell();
+                            }
                             var securityDw = FindNearest(dwInMind);
                             //если я бегу к таверне дольше врага
                             if (enemy != null)
                             {
-                                var enemyTrsvelCost = AStarSolver((Cell)enemy.Location, new Cell(securityDw.X, securityDw.Y)).travel_cost;
-                                if (securityDw.travel_cost > enemyTrsvelCost)
+                                var enemyTravel = AStarSolver((Cell)enemy.Location, new Cell(securityDw.X, securityDw.Y));
+
+                                if (enemyTravel == new Cell())
+                                {
+                                    break;
+                                }
+                                if (securityDw.F > enemyTravel.F)
                                 {
                                     dwInMind.Remove(securityDw);
                                 }
+                                else
+                                {
+                                    break;
+                                }
+                                
                             }
                             else
                             {
