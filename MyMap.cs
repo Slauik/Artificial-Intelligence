@@ -12,8 +12,6 @@ namespace Homm.Client
     // Класс MyMap - локальная запись всех открытых участков на карте
     class MyMap
     {
-        // StreamWriter sw = new StreamWriter("map.txt");
-
         private HommSensorData sensorData;
         public int weight; // Длина карты
         public int height; // Глубина карты
@@ -21,7 +19,9 @@ namespace Homm.Client
         public Chain[,] cells; // Список ячеек на карте
         public List<TopItem> mines = new List<TopItem>(); // Список найденных шахт
         public List<TopItem> dwellings = new List<TopItem>(); // Список найденных таверн
-
+        public List<TopItem> neutrals = new List<TopItem>(); // Список найденых нейтралов 
+        public List<TopItem> resources = new List<TopItem>(); // Список найденых ресурсов
+        
         // Конструктор
         public MyMap(int weight, int height)
         {
@@ -40,18 +40,6 @@ namespace Homm.Client
                 {
                     cells[w, h] = new Chain(w, h);
                 }
-            }
-        }
-
-        public void Zaplatka()
-        {
-            if (sensorData.MyRespawnSide.Equals("Left"))
-            {
-                cells[weight-1, height-1].travel_cost = -1;
-            }
-            else
-            {
-                cells[0, 0].travel_cost = -1;
             }
         }
 
@@ -100,6 +88,17 @@ namespace Homm.Client
                     {
                         mines.Add(new TopItem(w, h, temp.Mine));
                     }
+                    // Если здесь нейтралы 
+                    if (temp.NeutralArmy != null)
+                    {
+                        neutrals.Add(new TopItem(w, h, temp.NeutralArmy));
+                    }
+                    // Если здесь кучка ресурсов 
+                    if (temp.ResourcePile != null)
+                    {
+                        resources.Add(new TopItem(w, h, temp.ResourcePile));
+                    }
+
                 }
             }
         }
@@ -122,6 +121,8 @@ namespace Homm.Client
 
             UpdateDwelling();
             UpdateMine();
+            UpdateResource();
+            UpdateNeutral();
         }
 
         // Дописать для всех таверн, не только тех в которых мы наняли юнитов
@@ -129,11 +130,6 @@ namespace Homm.Client
         public void UpdateDwelling()
         {
             var fef = sensorData.Map.Objects.Where(o => o.Dwelling != null).Select(o => o);
-            if (sensorData.Location.X == 3 && sensorData.Location.Y == 3)
-            {
-
-            }
-
             foreach (var item in fef)
             {
                 int ind = dwellings.FindIndex(coord => coord == (TopItem)item.Location);
@@ -143,12 +139,6 @@ namespace Homm.Client
 
                 }
             }
-
-            //// По списку
-            //var index = dwellings.FindIndex(dw => dw.X == coord.X && dw.Y == coord.Y);
-            //// По игровой карте
-            //var dwel = GetCurrentCell(coord.X, coord.Y);
-            //dwellings[index].dwellingIsHere = dwel.Dwelling;
         }
 
         // Дописать для всех таверн, не только тех в которых мы наняли юнитов
@@ -165,26 +155,44 @@ namespace Homm.Client
                     mines[ind].mineIsHere = item.Mine;
                 }
             }
-
-            //// По списку
-            //var index = mines.FindIndex(dw => dw.X == coord.X && dw.Y == coord.Y);
-            //// По игровой карте
-            //var mns = GetCurrentCell(coord.X, coord.Y);
-            //mines[index].mineIsHere = mns.Mine;
         }
 
-        // Запись карты в файл
-        //public void PrintMap()
-        //{
-        //    for (int h = 0; h < height; h++)
-        //    {
-        //        for (int w = 0; w < weight; w++)
-        //        {
-        //            sw.Write($"{cells[w, h].travel_cost, 6}|");
-        //        }
-        //        sw.WriteLine();
-        //    }
-        //    sw.Close();
-        //}
+        // Метод обновления ресурсов 
+        private void UpdateResource()
+        {
+            for (int i = 0; i < resources.Count; i++)
+            {
+                var temp = GetCurrentCell(resources[i].X, resources[i].Y);
+                //если клетка с проверяемым ресурсом видна 
+                if (temp != null)
+                {
+                    //ресурса там нет 
+                    if (temp.ResourcePile == null)
+                    {
+                        resources.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+        }
+
+        // Метод обновления нейтралов 
+        private void UpdateNeutral()
+        {
+
+            for (int i = 0; i < neutrals.Count; i++)
+            {
+                var temp = GetCurrentCell(neutrals[i].X, neutrals[i].Y);
+
+                if (temp != null)
+                {
+                    if (temp.NeutralArmy == null)
+                    {
+                        neutrals.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+        }
     }
 }

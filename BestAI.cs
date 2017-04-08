@@ -134,6 +134,18 @@ namespace Homm.Client
                 return new Cell();
             }
 
+            int enemyArmy = 0;
+            // Для каждого типа юнита записываем его потери
+            foreach (var item in enemy.Hero.Army)
+            {
+                enemyArmy += item.Value;
+            }
+
+            if ((Cell)enemy.Location == new Cell(0,0) && enemyArmy == 0)
+            {
+                return new Cell();
+            }
+
             // Оцениваем исход боя в случае нападения на врага
             var attack = Combat.Resolve(new ArmiesPair(sensorData.MyArmy, enemy.Hero.Army));
 
@@ -210,22 +222,37 @@ namespace Homm.Client
             return sensorData.MyTreasury.Where(tr => tr.Key.Equals(res)).Select(tr => tr.Value).FirstOrDefault();
         }
 
-        // Поиск ресурсов
+        // Поиск ресурсов 
         private Cell FindResource()
         {
-            // Получаем все видимые ресурсы
-            var resInRange = sensorData.Map.Objects.
-                Where(res => res.ResourcePile != null).
-                Select(res => (Cell)res.Location).ToList();
-            // Находим самый ближайший к нам
-            Chain nearRes = FindNearest(resInRange);
-            // Если такой ресурс был найден, делаем шаг по направлению к нему
-            if (nearRes != null/* && nearRes.path.Length<=5*/)
+            // Получаем все ресурсы из памяти 
+            var resInMind = myMap.resources.
+            Where(res => res.resourceIsHere != null).
+            Select(res => res).ToList();
+
+            int goldCount = IHaveARes(Resource.Gold);
+            if (goldCount == 0)
             {
-                return nearRes;
+                var pes = resInMind.
+                Where(res => res.resourceIsHere.Resource == Resource.Gold).
+                Select(coord => new Cell(coord.X, coord.Y)).ToList();
+
+                Chain nearGold = FindNearest(pes);
+                return nearGold;
+            }
+            else
+            {
+                // Находим самый ближайший к нам 
+                Chain nearRes = FindNearest(resInMind.Select(res => new Cell(res.X, res.Y)).ToList());
+                // Если такой ресурс был найден, делаем шаг по направлению к нему 
+                if (nearRes != null)
+                {
+                    return nearRes;
+                }
             }
             return new Cell();
         }
+
 
         // Метод нахождения таверны
         private Cell FindSecurityDwelling()
@@ -581,34 +608,46 @@ namespace Homm.Client
         // игнорируем эту клетку
         private int InDanger(Chain shift, Dictionary<UnitType, int> tempArmy)
         {
-            var curOb = myMap.GetCurrentCell(shift.X, shift.Y);
-            // Если текущий объект пустой
-            if (curOb == null)
-            {
-                return 0;
-            }
-
             Dictionary<UnitType, int> enemyArmy = new Dictionary<UnitType, int>();
-            // Если там есть нейтралы
-            if (curOb.NeutralArmy != null)
-            {
-                enemyArmy = curOb.NeutralArmy.Army;
 
-            }
-            //Если там есть не мой гарнизон
-            else if (curOb.Garrison != null && !curOb.Garrison.Owner.Equals(sensorData.MyRespawnSide))
+            var curNeu = myMap.neutrals.Where(n => n.X == shift.X && n.Y == shift.Y).
+                Select(n => n.neutralIsHere).FirstOrDefault();
+            // Если там есть нейтралы 
+            if (curNeu != null)
             {
-                enemyArmy = curOb.Garrison.Army;
-            }
-            //Если там соперник
-            else if (curOb.Hero != null && !curOb.Hero.Name.Equals(sensorData.MyRespawnSide))
-            {
-                enemyArmy = curOb.Hero.Army;
+                enemyArmy = curNeu.Army;
             }
             else
             {
-                return 0;
+                var curOb = myMap.GetCurrentCell(shift.X, shift.Y);
+                // Если текущий объект пустой
+                if (curOb == null)
+                {
+                    return 0;
+                }
+
+                // Если там есть нейтралы
+                if (curOb.NeutralArmy != null)
+                {
+                    enemyArmy = curOb.NeutralArmy.Army;
+
+                }
+                //Если там есть не мой гарнизон
+                else if (curOb.Garrison != null && !curOb.Garrison.Owner.Equals(sensorData.MyRespawnSide))
+                {
+                    enemyArmy = curOb.Garrison.Army;
+                }
+                //Если там соперник
+                else if (curOb.Hero != null && !curOb.Hero.Name.Equals(sensorData.MyRespawnSide))
+                {
+                    enemyArmy = curOb.Hero.Army;
+                }
+                else
+                {
+                    return 0;
+                }
             }
+
             // Проводим бой
             var fight = Combat.Resolve(new ArmiesPair(tempArmy, enemyArmy));
 

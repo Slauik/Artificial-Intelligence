@@ -12,6 +12,8 @@ namespace Homm.Client
     // Примитивы
     using DwellingEnter = HoMM.ClientClasses.Dwelling;
     using MineEnter = HoMM.ClientClasses.Mine;
+    using NeutralIsHere = HoMM.ClientClasses.NeutralArmy;
+    using ResourceIsHere = HoMM.ClientClasses.ResourcePile;
 
     // Класс TopItem
     class TopItem
@@ -22,6 +24,8 @@ namespace Homm.Client
        
         public DwellingEnter dwellingIsHere; // Вход в таверну
         public MineEnter mineIsHere; // Вход в шахту
+        public NeutralIsHere neutralIsHere; // Здесь находится нейтрал 
+        public ResourceIsHere resourceIsHere; // Здесь лежит ресурс
 
         // Конструкторы
         public TopItem(int X, int Y)
@@ -36,6 +40,14 @@ namespace Homm.Client
         public TopItem(int X, int Y, MineEnter mi) : this(X, Y)
         {
             mineIsHere = mi;
+        }
+        public TopItem(int X, int Y, NeutralIsHere ne) : this(X, Y)
+        {
+            neutralIsHere = ne;
+        }
+        public TopItem(int X, int Y, ResourceIsHere re) : this(X, Y)
+        {
+            resourceIsHere = re;
         }
 
         // Переопределение операторов
